@@ -1,0 +1,18 @@
+dubbo:
+  application:
+    name: mall-web
+  registry:
+    address: zookeeper://192.168.1.145:2181
+  #不检查提供者是否存在
+  consumer:
+    check: false
+
+server:
+  port: 8080
+
+mall:
+  jwt:
+    tokenHeader: Authorization
+    secret: mall_2019
+    expiration: 604800
+    tokenHead: Bearer

@@ -1,0 +1,20 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: root
+    url: jdbc:mysql://localhost:3306/mall?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+dubbo:
+  application:
+    name: mall-ums
+  registry:
+    address: zookeeper://192.168.1.145:2181
+  protocol:
+    name: dubbo
+    port: 20800
+#打印sql语句
+logging:
+  level:
+    fun.huanghai.mall.dao: debug
