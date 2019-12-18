@@ -1,20 +1,35 @@
 package fun.huanghai.mall.service.impl;
 
+import fun.huanghai.mall.dao.UmsAdminDaoExpand;
 import fun.huanghai.mall.dao.UmsAdminMapper;
-import fun.huanghai.mall.pojo.UmsAdmin;
-import fun.huanghai.mall.pojo.UmsAdminExample;
-import fun.huanghai.mall.service.UmsAdminService;
+import fun.huanghai.mall.ums.pojo.UmsAdmin;
+import fun.huanghai.mall.ums.pojo.UmsAdminExample;
+import fun.huanghai.mall.ums.pojo.UmsAdminExpand;
+import fun.huanghai.mall.ums.service.UmsAdminService;
 import org.apache.dubbo.config.annotation.Service;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.util.DigestUtils;
 
 import java.util.List;
 
 @Service
-public class UmsAdminServiceImpl implements UmsAdminService{
+public class UmsAdminServiceImpl extends BaseServiceImpl<UmsAdmin> implements UmsAdminService{
+
+    private UmsAdminMapper umsAdminMapper;
 
     @Autowired
-    private UmsAdminMapper umsAdminMapper;
+    @Qualifier("umsAdminDaoExpand")
+    private UmsAdminDaoExpand umsAdminDaoExpand;
+
+    @Autowired
+    @Qualifier("umsAdminMapper")
+    public void setUmsAdminMapper(UmsAdminMapper umsAdminMapper) {
+        this.umsAdminMapper = umsAdminMapper;
+        super.setaClass(UmsAdminMapper.class);
+        super.setExampleClass(UmsAdminExample.class);
+    }
+
 
     /**
      * 登录功能
@@ -43,11 +58,8 @@ public class UmsAdminServiceImpl implements UmsAdminService{
      * @return
      */
     @Override
-    public UmsAdmin getUserInfo(String username) {
-        UmsAdminExample example = new UmsAdminExample();
-        example.createCriteria().andUsernameEqualTo(username);
-        List<UmsAdmin> umsAdmins = umsAdminMapper.selectByExample(example);
-        if(umsAdmins.size() > 0) return umsAdmins.get(0);
-        return null;
+    public UmsAdminExpand getAdminInfo(String username) {
+        UmsAdminExpand adminExpand = umsAdminDaoExpand.findByUsername(username);
+        return adminExpand;
     }
 }

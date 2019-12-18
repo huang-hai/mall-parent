@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="fun.huanghai.mall.dao.UmsMemberReceiveAddressMapper" >
-  <resultMap id="BaseResultMap" type="fun.huanghai.mall.pojo.UmsMemberReceiveAddress" >
+  <resultMap id="BaseResultMap" type="fun.huanghai.mall.ums.pojo.UmsMemberReceiveAddress" >
     <id column="id" property="id" jdbcType="BIGINT" />
     <result column="member_id" property="memberId" jdbcType="BIGINT" />
     <result column="name" property="name" jdbcType="VARCHAR" />
@@ -46,7 +46,7 @@
     id, member_id, name, phone_number, default_status, post_code, province, city, region, 
     detail_address
   </sql>
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="fun.huanghai.mall.pojo.UmsMemberReceiveAddressExample" >
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="fun.huanghai.mall.ums.pojo.UmsMemberReceiveAddressExample" >
     select
     <if test="distinct" >
       distinct
@@ -70,7 +70,7 @@
     delete from ums_member_receive_address
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="fun.huanghai.mall.pojo.UmsMemberReceiveAddress" >
+  <insert id="insert" parameterType="fun.huanghai.mall.ums.pojo.UmsMemberReceiveAddress" >
     <selectKey resultType="java.lang.Long" keyProperty="id" order="BEFORE" >
       SELECT LAST_INSERT_ID()
     </selectKey>
@@ -83,7 +83,7 @@
       #{province,jdbcType=VARCHAR}, #{city,jdbcType=VARCHAR}, #{region,jdbcType=VARCHAR}, 
       #{detailAddress,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="fun.huanghai.mall.pojo.UmsMemberReceiveAddress" >
+  <insert id="insertSelective" parameterType="fun.huanghai.mall.ums.pojo.UmsMemberReceiveAddress" >
     <selectKey resultType="java.lang.Long" keyProperty="id" order="BEFORE" >
       SELECT LAST_INSERT_ID()
     </selectKey>
@@ -149,7 +149,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="fun.huanghai.mall.pojo.UmsMemberReceiveAddress" >
+  <update id="updateByPrimaryKeySelective" parameterType="fun.huanghai.mall.ums.pojo.UmsMemberReceiveAddress" >
     update ums_member_receive_address
     <set >
       <if test="memberId != null" >
@@ -182,7 +182,7 @@
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="fun.huanghai.mall.pojo.UmsMemberReceiveAddress" >
+  <update id="updateByPrimaryKey" parameterType="fun.huanghai.mall.ums.pojo.UmsMemberReceiveAddress" >
     update ums_member_receive_address
     set member_id = #{memberId,jdbcType=BIGINT},
       name = #{name,jdbcType=VARCHAR},

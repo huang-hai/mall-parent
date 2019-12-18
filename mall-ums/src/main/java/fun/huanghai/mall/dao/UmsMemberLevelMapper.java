@@ -1,7 +1,7 @@
 package fun.huanghai.mall.dao;
 
-import fun.huanghai.mall.pojo.UmsMemberLevel;
-import fun.huanghai.mall.pojo.UmsMemberLevelExample;
+import fun.huanghai.mall.ums.pojo.UmsMemberLevel;
+import fun.huanghai.mall.ums.pojo.UmsMemberLevelExample;
 
 import java.util.List;
 

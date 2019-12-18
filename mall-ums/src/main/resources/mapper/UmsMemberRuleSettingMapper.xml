@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="fun.huanghai.mall.dao.UmsMemberRuleSettingMapper" >
-  <resultMap id="BaseResultMap" type="fun.huanghai.mall.pojo.UmsMemberRuleSetting" >
+  <resultMap id="BaseResultMap" type="fun.huanghai.mall.ums.pojo.UmsMemberRuleSetting" >
     <id column="id" property="id" jdbcType="BIGINT" />
     <result column="continue_sign_day" property="continueSignDay" jdbcType="INTEGER" />
     <result column="continue_sign_point" property="continueSignPoint" jdbcType="INTEGER" />
@@ -43,7 +43,7 @@
     id, continue_sign_day, continue_sign_point, consume_per_point, low_order_amount, 
     max_point_per_order, type
   </sql>
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="fun.huanghai.mall.pojo.UmsMemberRuleSettingExample" >
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="fun.huanghai.mall.ums.pojo.UmsMemberRuleSettingExample" >
     select
     <if test="distinct" >
       distinct
@@ -67,7 +67,7 @@
     delete from ums_member_rule_setting
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="fun.huanghai.mall.pojo.UmsMemberRuleSetting" >
+  <insert id="insert" parameterType="fun.huanghai.mall.ums.pojo.UmsMemberRuleSetting" >
     <selectKey resultType="java.lang.Long" keyProperty="id" order="BEFORE" >
       SELECT LAST_INSERT_ID()
     </selectKey>
@@ -78,7 +78,7 @@
       #{consumePerPoint,jdbcType=DECIMAL}, #{lowOrderAmount,jdbcType=DECIMAL}, #{maxPointPerOrder,jdbcType=INTEGER}, 
       #{type,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" parameterType="fun.huanghai.mall.pojo.UmsMemberRuleSetting" >
+  <insert id="insertSelective" parameterType="fun.huanghai.mall.ums.pojo.UmsMemberRuleSetting" >
     <selectKey resultType="java.lang.Long" keyProperty="id" order="BEFORE" >
       SELECT LAST_INSERT_ID()
     </selectKey>
@@ -126,7 +126,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="fun.huanghai.mall.pojo.UmsMemberRuleSetting" >
+  <update id="updateByPrimaryKeySelective" parameterType="fun.huanghai.mall.ums.pojo.UmsMemberRuleSetting" >
     update ums_member_rule_setting
     <set >
       <if test="continueSignDay != null" >
@@ -150,7 +150,7 @@
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="fun.huanghai.mall.pojo.UmsMemberRuleSetting" >
+  <update id="updateByPrimaryKey" parameterType="fun.huanghai.mall.ums.pojo.UmsMemberRuleSetting" >
     update ums_member_rule_setting
     set continue_sign_day = #{continueSignDay,jdbcType=INTEGER},
       continue_sign_point = #{continueSignPoint,jdbcType=INTEGER},

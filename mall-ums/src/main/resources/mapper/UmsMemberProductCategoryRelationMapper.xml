@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="fun.huanghai.mall.dao.UmsMemberProductCategoryRelationMapper" >
-  <resultMap id="BaseResultMap" type="fun.huanghai.mall.pojo.UmsMemberProductCategoryRelation" >
+  <resultMap id="BaseResultMap" type="fun.huanghai.mall.ums.pojo.UmsMemberProductCategoryRelation" >
     <id column="id" property="id" jdbcType="BIGINT" />
     <result column="member_id" property="memberId" jdbcType="BIGINT" />
     <result column="product_category_id" property="productCategoryId" jdbcType="BIGINT" />
@@ -38,7 +38,7 @@
   <sql id="Base_Column_List" >
     id, member_id, product_category_id
   </sql>
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="fun.huanghai.mall.pojo.UmsMemberProductCategoryRelationExample" >
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="fun.huanghai.mall.ums.pojo.UmsMemberProductCategoryRelationExample" >
     select
     <if test="distinct" >
       distinct
@@ -62,7 +62,7 @@
     delete from ums_member_product_category_relation
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="fun.huanghai.mall.pojo.UmsMemberProductCategoryRelation" >
+  <insert id="insert" parameterType="fun.huanghai.mall.ums.pojo.UmsMemberProductCategoryRelation" >
     <selectKey resultType="java.lang.Long" keyProperty="id" order="BEFORE" >
       SELECT LAST_INSERT_ID()
     </selectKey>
@@ -71,7 +71,7 @@
     values (#{id,jdbcType=BIGINT}, #{memberId,jdbcType=BIGINT}, #{productCategoryId,jdbcType=BIGINT}
       )
   </insert>
-  <insert id="insertSelective" parameterType="fun.huanghai.mall.pojo.UmsMemberProductCategoryRelation" >
+  <insert id="insertSelective" parameterType="fun.huanghai.mall.ums.pojo.UmsMemberProductCategoryRelation" >
     <selectKey resultType="java.lang.Long" keyProperty="id" order="BEFORE" >
       SELECT LAST_INSERT_ID()
     </selectKey>
@@ -95,7 +95,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="fun.huanghai.mall.pojo.UmsMemberProductCategoryRelation" >
+  <update id="updateByPrimaryKeySelective" parameterType="fun.huanghai.mall.ums.pojo.UmsMemberProductCategoryRelation" >
     update ums_member_product_category_relation
     <set >
       <if test="memberId != null" >
@@ -107,7 +107,7 @@
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="fun.huanghai.mall.pojo.UmsMemberProductCategoryRelation" >
+  <update id="updateByPrimaryKey" parameterType="fun.huanghai.mall.ums.pojo.UmsMemberProductCategoryRelation" >
     update ums_member_product_category_relation
     set member_id = #{memberId,jdbcType=BIGINT},
       product_category_id = #{productCategoryId,jdbcType=BIGINT}

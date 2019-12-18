@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="fun.huanghai.mall.dao.UmsGrowthChangeHistoryMapper" >
-  <resultMap id="BaseResultMap" type="fun.huanghai.mall.pojo.UmsGrowthChangeHistory" >
+  <resultMap id="BaseResultMap" type="fun.huanghai.mall.ums.pojo.UmsGrowthChangeHistory" >
     <id column="id" property="id" jdbcType="BIGINT" />
     <result column="member_id" property="memberId" jdbcType="BIGINT" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
@@ -44,7 +44,7 @@
     id, member_id, create_time, change_type, change_count, operate_man, operate_note, 
     source_type
   </sql>
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="fun.huanghai.mall.pojo.UmsGrowthChangeHistoryExample" >
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="fun.huanghai.mall.ums.pojo.UmsGrowthChangeHistoryExample" >
     select
     <if test="distinct" >
       distinct
@@ -68,7 +68,7 @@
     delete from ums_growth_change_history
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="fun.huanghai.mall.pojo.UmsGrowthChangeHistory" >
+  <insert id="insert" parameterType="fun.huanghai.mall.ums.pojo.UmsGrowthChangeHistory" >
     <selectKey resultType="java.lang.Long" keyProperty="id" order="BEFORE" >
       SELECT LAST_INSERT_ID()
     </selectKey>
@@ -79,7 +79,7 @@
       #{changeType,jdbcType=INTEGER}, #{changeCount,jdbcType=INTEGER}, #{operateMan,jdbcType=VARCHAR}, 
       #{operateNote,jdbcType=VARCHAR}, #{sourceType,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" parameterType="fun.huanghai.mall.pojo.UmsGrowthChangeHistory" >
+  <insert id="insertSelective" parameterType="fun.huanghai.mall.ums.pojo.UmsGrowthChangeHistory" >
     <selectKey resultType="java.lang.Long" keyProperty="id" order="BEFORE" >
       SELECT LAST_INSERT_ID()
     </selectKey>
@@ -133,7 +133,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="fun.huanghai.mall.pojo.UmsGrowthChangeHistory" >
+  <update id="updateByPrimaryKeySelective" parameterType="fun.huanghai.mall.ums.pojo.UmsGrowthChangeHistory" >
     update ums_growth_change_history
     <set >
       <if test="memberId != null" >
@@ -160,7 +160,7 @@
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="fun.huanghai.mall.pojo.UmsGrowthChangeHistory" >
+  <update id="updateByPrimaryKey" parameterType="fun.huanghai.mall.ums.pojo.UmsGrowthChangeHistory" >
     update ums_growth_change_history
     set member_id = #{memberId,jdbcType=BIGINT},
       create_time = #{createTime,jdbcType=TIMESTAMP},

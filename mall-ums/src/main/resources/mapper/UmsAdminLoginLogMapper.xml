@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="fun.huanghai.mall.dao.UmsAdminLoginLogMapper" >
-  <resultMap id="BaseResultMap" type="fun.huanghai.mall.pojo.UmsAdminLoginLog" >
+  <resultMap id="BaseResultMap" type="fun.huanghai.mall.ums.pojo.UmsAdminLoginLog" >
     <id column="id" property="id" jdbcType="BIGINT" />
     <result column="admin_id" property="adminId" jdbcType="BIGINT" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
@@ -41,7 +41,7 @@
   <sql id="Base_Column_List" >
     id, admin_id, create_time, ip, address, user_agent
   </sql>
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="fun.huanghai.mall.pojo.UmsAdminLoginLogExample" >
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="fun.huanghai.mall.ums.pojo.UmsAdminLoginLogExample" >
     select
     <if test="distinct" >
       distinct
@@ -65,7 +65,7 @@
     delete from ums_admin_login_log
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="fun.huanghai.mall.pojo.UmsAdminLoginLog" >
+  <insert id="insert" parameterType="fun.huanghai.mall.ums.pojo.UmsAdminLoginLog" >
     <selectKey resultType="java.lang.Long" keyProperty="id" order="BEFORE" >
       SELECT LAST_INSERT_ID()
     </selectKey>
@@ -76,7 +76,7 @@
       #{ip,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{userAgent,jdbcType=VARCHAR}
       )
   </insert>
-  <insert id="insertSelective" parameterType="fun.huanghai.mall.pojo.UmsAdminLoginLog" >
+  <insert id="insertSelective" parameterType="fun.huanghai.mall.ums.pojo.UmsAdminLoginLog" >
     <selectKey resultType="java.lang.Long" keyProperty="id" order="BEFORE" >
       SELECT LAST_INSERT_ID()
     </selectKey>
@@ -118,7 +118,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="fun.huanghai.mall.pojo.UmsAdminLoginLog" >
+  <update id="updateByPrimaryKeySelective" parameterType="fun.huanghai.mall.ums.pojo.UmsAdminLoginLog" >
     update ums_admin_login_log
     <set >
       <if test="adminId != null" >
@@ -139,7 +139,7 @@
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="fun.huanghai.mall.pojo.UmsAdminLoginLog" >
+  <update id="updateByPrimaryKey" parameterType="fun.huanghai.mall.ums.pojo.UmsAdminLoginLog" >
     update ums_admin_login_log
     set admin_id = #{adminId,jdbcType=BIGINT},
       create_time = #{createTime,jdbcType=TIMESTAMP},

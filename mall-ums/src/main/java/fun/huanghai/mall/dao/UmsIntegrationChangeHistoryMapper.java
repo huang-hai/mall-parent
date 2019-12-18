@@ -1,7 +1,7 @@
 package fun.huanghai.mall.dao;
 
-import fun.huanghai.mall.pojo.UmsIntegrationChangeHistory;
-import fun.huanghai.mall.pojo.UmsIntegrationChangeHistoryExample;
+import fun.huanghai.mall.ums.pojo.UmsIntegrationChangeHistory;
+import fun.huanghai.mall.ums.pojo.UmsIntegrationChangeHistoryExample;
 
 import java.util.List;
 

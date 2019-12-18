@@ -1,7 +1,7 @@
 package fun.huanghai.mall.utils;
 
 
-import fun.huanghai.mall.pojo.UmsAdmin;
+import fun.huanghai.mall.ums.pojo.UmsAdmin;
 import io.jsonwebtoken.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

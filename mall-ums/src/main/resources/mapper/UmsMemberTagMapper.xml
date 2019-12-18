@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="fun.huanghai.mall.dao.UmsMemberTagMapper" >
-  <resultMap id="BaseResultMap" type="fun.huanghai.mall.pojo.UmsMemberTag" >
+  <resultMap id="BaseResultMap" type="fun.huanghai.mall.ums.pojo.UmsMemberTag" >
     <id column="id" property="id" jdbcType="BIGINT" />
     <result column="name" property="name" jdbcType="VARCHAR" />
     <result column="finish_order_count" property="finishOrderCount" jdbcType="INTEGER" />
@@ -39,7 +39,7 @@
   <sql id="Base_Column_List" >
     id, name, finish_order_count, finish_order_amount
   </sql>
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="fun.huanghai.mall.pojo.UmsMemberTagExample" >
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="fun.huanghai.mall.ums.pojo.UmsMemberTagExample" >
     select
     <if test="distinct" >
       distinct
@@ -63,7 +63,7 @@
     delete from ums_member_tag
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="fun.huanghai.mall.pojo.UmsMemberTag" >
+  <insert id="insert" parameterType="fun.huanghai.mall.ums.pojo.UmsMemberTag" >
     <selectKey resultType="java.lang.Long" keyProperty="id" order="BEFORE" >
       SELECT LAST_INSERT_ID()
     </selectKey>
@@ -72,7 +72,7 @@
     values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{finishOrderCount,jdbcType=INTEGER}, 
       #{finishOrderAmount,jdbcType=DECIMAL})
   </insert>
-  <insert id="insertSelective" parameterType="fun.huanghai.mall.pojo.UmsMemberTag" >
+  <insert id="insertSelective" parameterType="fun.huanghai.mall.ums.pojo.UmsMemberTag" >
     <selectKey resultType="java.lang.Long" keyProperty="id" order="BEFORE" >
       SELECT LAST_INSERT_ID()
     </selectKey>
@@ -102,7 +102,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="fun.huanghai.mall.pojo.UmsMemberTag" >
+  <update id="updateByPrimaryKeySelective" parameterType="fun.huanghai.mall.ums.pojo.UmsMemberTag" >
     update ums_member_tag
     <set >
       <if test="name != null" >
@@ -117,7 +117,7 @@
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="fun.huanghai.mall.pojo.UmsMemberTag" >
+  <update id="updateByPrimaryKey" parameterType="fun.huanghai.mall.ums.pojo.UmsMemberTag" >
     update ums_member_tag
     set name = #{name,jdbcType=VARCHAR},
       finish_order_count = #{finishOrderCount,jdbcType=INTEGER},

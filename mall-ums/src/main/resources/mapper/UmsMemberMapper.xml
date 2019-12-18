@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="fun.huanghai.mall.dao.UmsMemberMapper" >
-  <resultMap id="BaseResultMap" type="fun.huanghai.mall.pojo.UmsMember" >
+  <resultMap id="BaseResultMap" type="fun.huanghai.mall.ums.pojo.UmsMember" >
     <id column="id" property="id" jdbcType="BIGINT" />
     <result column="member_level_id" property="memberLevelId" jdbcType="BIGINT" />
     <result column="username" property="username" jdbcType="VARCHAR" />
@@ -56,7 +56,7 @@
     gender, birthday, city, job, personalized_signature, source_type, integration, growth, 
     luckey_count, history_integration
   </sql>
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="fun.huanghai.mall.pojo.UmsMemberExample" >
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="fun.huanghai.mall.ums.pojo.UmsMemberExample" >
     select
     <if test="distinct" >
       distinct
@@ -80,7 +80,7 @@
     delete from ums_member
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="fun.huanghai.mall.pojo.UmsMember" >
+  <insert id="insert" parameterType="fun.huanghai.mall.ums.pojo.UmsMember" >
     <selectKey resultType="java.lang.Long" keyProperty="id" order="BEFORE" >
       SELECT LAST_INSERT_ID()
     </selectKey>
@@ -99,7 +99,7 @@
       #{integration,jdbcType=INTEGER}, #{growth,jdbcType=INTEGER}, #{luckeyCount,jdbcType=INTEGER}, 
       #{historyIntegration,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" parameterType="fun.huanghai.mall.pojo.UmsMember" >
+  <insert id="insertSelective" parameterType="fun.huanghai.mall.ums.pojo.UmsMember" >
     <selectKey resultType="java.lang.Long" keyProperty="id" order="BEFORE" >
       SELECT LAST_INSERT_ID()
     </selectKey>
@@ -219,7 +219,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="fun.huanghai.mall.pojo.UmsMember" >
+  <update id="updateByPrimaryKeySelective" parameterType="fun.huanghai.mall.ums.pojo.UmsMember" >
     update ums_member
     <set >
       <if test="memberLevelId != null" >
@@ -279,7 +279,7 @@
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="fun.huanghai.mall.pojo.UmsMember" >
+  <update id="updateByPrimaryKey" parameterType="fun.huanghai.mall.ums.pojo.UmsMember" >
     update ums_member
     set member_level_id = #{memberLevelId,jdbcType=BIGINT},
       username = #{username,jdbcType=VARCHAR},

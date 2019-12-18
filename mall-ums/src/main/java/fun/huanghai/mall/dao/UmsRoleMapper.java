@@ -1,7 +1,7 @@
 package fun.huanghai.mall.dao;
 
-import fun.huanghai.mall.pojo.UmsRole;
-import fun.huanghai.mall.pojo.UmsRoleExample;
+import fun.huanghai.mall.ums.pojo.UmsRole;
+import fun.huanghai.mall.ums.pojo.UmsRoleExample;
 
 import java.util.List;
 

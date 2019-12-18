@@ -1,7 +1,7 @@
 package fun.huanghai.mall.dao;
 
-import fun.huanghai.mall.pojo.UmsMemberProductCategoryRelation;
-import fun.huanghai.mall.pojo.UmsMemberProductCategoryRelationExample;
+import fun.huanghai.mall.ums.pojo.UmsMemberProductCategoryRelation;
+import fun.huanghai.mall.ums.pojo.UmsMemberProductCategoryRelationExample;
 
 import java.util.List;
 

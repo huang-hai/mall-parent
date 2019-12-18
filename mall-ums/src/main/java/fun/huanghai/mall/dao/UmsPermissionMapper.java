@@ -1,7 +1,7 @@
 package fun.huanghai.mall.dao;
 
-import fun.huanghai.mall.pojo.UmsPermission;
-import fun.huanghai.mall.pojo.UmsPermissionExample;
+import fun.huanghai.mall.ums.pojo.UmsPermission;
+import fun.huanghai.mall.ums.pojo.UmsPermissionExample;
 
 import java.util.List;
 

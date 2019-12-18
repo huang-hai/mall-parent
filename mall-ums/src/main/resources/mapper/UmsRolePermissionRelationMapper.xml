@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="fun.huanghai.mall.dao.UmsRolePermissionRelationMapper" >
-  <resultMap id="BaseResultMap" type="fun.huanghai.mall.pojo.UmsRolePermissionRelation" >
+  <resultMap id="BaseResultMap" type="fun.huanghai.mall.ums.pojo.UmsRolePermissionRelation" >
     <id column="id" property="id" jdbcType="BIGINT" />
     <result column="role_id" property="roleId" jdbcType="BIGINT" />
     <result column="permission_id" property="permissionId" jdbcType="BIGINT" />
@@ -38,7 +38,7 @@
   <sql id="Base_Column_List" >
     id, role_id, permission_id
   </sql>
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="fun.huanghai.mall.pojo.UmsRolePermissionRelationExample" >
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="fun.huanghai.mall.ums.pojo.UmsRolePermissionRelationExample" >
     select
     <if test="distinct" >
       distinct
@@ -62,7 +62,7 @@
     delete from ums_role_permission_relation
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="fun.huanghai.mall.pojo.UmsRolePermissionRelation" >
+  <insert id="insert" parameterType="fun.huanghai.mall.ums.pojo.UmsRolePermissionRelation" >
     <selectKey resultType="java.lang.Long" keyProperty="id" order="BEFORE" >
       SELECT LAST_INSERT_ID()
     </selectKey>
@@ -71,7 +71,7 @@
     values (#{id,jdbcType=BIGINT}, #{roleId,jdbcType=BIGINT}, #{permissionId,jdbcType=BIGINT}
       )
   </insert>
-  <insert id="insertSelective" parameterType="fun.huanghai.mall.pojo.UmsRolePermissionRelation" >
+  <insert id="insertSelective" parameterType="fun.huanghai.mall.ums.pojo.UmsRolePermissionRelation" >
     <selectKey resultType="java.lang.Long" keyProperty="id" order="BEFORE" >
       SELECT LAST_INSERT_ID()
     </selectKey>
@@ -95,7 +95,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="fun.huanghai.mall.pojo.UmsRolePermissionRelation" >
+  <update id="updateByPrimaryKeySelective" parameterType="fun.huanghai.mall.ums.pojo.UmsRolePermissionRelation" >
     update ums_role_permission_relation
     <set >
       <if test="roleId != null" >
@@ -107,7 +107,7 @@
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="fun.huanghai.mall.pojo.UmsRolePermissionRelation" >
+  <update id="updateByPrimaryKey" parameterType="fun.huanghai.mall.ums.pojo.UmsRolePermissionRelation" >
     update ums_role_permission_relation
     set role_id = #{roleId,jdbcType=BIGINT},
       permission_id = #{permissionId,jdbcType=BIGINT}

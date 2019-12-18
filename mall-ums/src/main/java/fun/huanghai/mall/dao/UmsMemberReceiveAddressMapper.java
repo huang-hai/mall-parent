@@ -1,7 +1,7 @@
 package fun.huanghai.mall.dao;
 
-import fun.huanghai.mall.pojo.UmsMemberReceiveAddress;
-import fun.huanghai.mall.pojo.UmsMemberReceiveAddressExample;
+import fun.huanghai.mall.ums.pojo.UmsMemberReceiveAddress;
+import fun.huanghai.mall.ums.pojo.UmsMemberReceiveAddressExample;
 
 import java.util.List;
 

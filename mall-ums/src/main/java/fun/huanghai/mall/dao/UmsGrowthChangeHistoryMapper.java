@@ -1,7 +1,7 @@
 package fun.huanghai.mall.dao;
 
-import fun.huanghai.mall.pojo.UmsGrowthChangeHistory;
-import fun.huanghai.mall.pojo.UmsGrowthChangeHistoryExample;
+import fun.huanghai.mall.ums.pojo.UmsGrowthChangeHistory;
+import fun.huanghai.mall.ums.pojo.UmsGrowthChangeHistoryExample;
 
 import java.util.List;
 

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="fun.huanghai.mall.dao.UmsIntegrationConsumeSettingMapper" >
-  <resultMap id="BaseResultMap" type="fun.huanghai.mall.pojo.UmsIntegrationConsumeSetting" >
+  <resultMap id="BaseResultMap" type="fun.huanghai.mall.ums.pojo.UmsIntegrationConsumeSetting" >
     <id column="id" property="id" jdbcType="BIGINT" />
     <result column="deduction_per_amount" property="deductionPerAmount" jdbcType="INTEGER" />
     <result column="max_percent_per_order" property="maxPercentPerOrder" jdbcType="INTEGER" />
@@ -40,7 +40,7 @@
   <sql id="Base_Column_List" >
     id, deduction_per_amount, max_percent_per_order, use_unit, coupon_status
   </sql>
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="fun.huanghai.mall.pojo.UmsIntegrationConsumeSettingExample" >
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="fun.huanghai.mall.ums.pojo.UmsIntegrationConsumeSettingExample" >
     select
     <if test="distinct" >
       distinct
@@ -64,7 +64,7 @@
     delete from ums_integration_consume_setting
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="fun.huanghai.mall.pojo.UmsIntegrationConsumeSetting" >
+  <insert id="insert" parameterType="fun.huanghai.mall.ums.pojo.UmsIntegrationConsumeSetting" >
     <selectKey resultType="java.lang.Long" keyProperty="id" order="BEFORE" >
       SELECT LAST_INSERT_ID()
     </selectKey>
@@ -73,7 +73,7 @@
     values (#{id,jdbcType=BIGINT}, #{deductionPerAmount,jdbcType=INTEGER}, #{maxPercentPerOrder,jdbcType=INTEGER}, 
       #{useUnit,jdbcType=INTEGER}, #{couponStatus,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" parameterType="fun.huanghai.mall.pojo.UmsIntegrationConsumeSetting" >
+  <insert id="insertSelective" parameterType="fun.huanghai.mall.ums.pojo.UmsIntegrationConsumeSetting" >
     <selectKey resultType="java.lang.Long" keyProperty="id" order="BEFORE" >
       SELECT LAST_INSERT_ID()
     </selectKey>
@@ -109,7 +109,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="fun.huanghai.mall.pojo.UmsIntegrationConsumeSetting" >
+  <update id="updateByPrimaryKeySelective" parameterType="fun.huanghai.mall.ums.pojo.UmsIntegrationConsumeSetting" >
     update ums_integration_consume_setting
     <set >
       <if test="deductionPerAmount != null" >
@@ -127,7 +127,7 @@
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="fun.huanghai.mall.pojo.UmsIntegrationConsumeSetting" >
+  <update id="updateByPrimaryKey" parameterType="fun.huanghai.mall.ums.pojo.UmsIntegrationConsumeSetting" >
     update ums_integration_consume_setting
     set deduction_per_amount = #{deductionPerAmount,jdbcType=INTEGER},
       max_percent_per_order = #{maxPercentPerOrder,jdbcType=INTEGER},

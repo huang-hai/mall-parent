@@ -1,7 +1,7 @@
 package fun.huanghai.mall;
 
 import fun.huanghai.mall.dao.UmsAdminLoginLogMapper;
-import fun.huanghai.mall.pojo.UmsAdminLoginLogExample;
+import fun.huanghai.mall.ums.pojo.UmsAdminLoginLogExample;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

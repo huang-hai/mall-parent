@@ -1,7 +1,7 @@
 package fun.huanghai.mall.dao;
 
-import fun.huanghai.mall.pojo.UmsIntegrationConsumeSetting;
-import fun.huanghai.mall.pojo.UmsIntegrationConsumeSettingExample;
+import fun.huanghai.mall.ums.pojo.UmsIntegrationConsumeSetting;
+import fun.huanghai.mall.ums.pojo.UmsIntegrationConsumeSettingExample;
 
 import java.util.List;
 
