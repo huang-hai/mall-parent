@@ -17,6 +17,8 @@ dubbo:
   protocol:
     name: dubbo
     port: 20800
+#  provider:
+#    cluster: failfast
 #打印sql语句
 logging:
   level:

@@ -1,0 +1,4 @@
+2019-12-18:
+完成后台用户登录功能，新增BaseService抽取基础的增删查改，分页查询方法，
+利用反射使用mybatis自动生成的mapper使用，一改之前的BaseDao，不用在将生成好的mapper继承BaseDao
+如果要扩展mapper可以使用继承

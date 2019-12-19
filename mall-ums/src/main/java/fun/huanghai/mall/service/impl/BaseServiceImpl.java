@@ -6,6 +6,8 @@ import fun.huanghai.mall.qo.QueryPageParam;
 import fun.huanghai.mall.service.BaseService;
 import fun.huanghai.mall.util.SpringUtil;
 import fun.huanghai.mall.vo.PageInfoVo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 
 import java.lang.reflect.InvocationTargetException;
@@ -13,6 +15,8 @@ import java.lang.reflect.Method;
 import java.util.List;
 
 public class BaseServiceImpl<T> implements BaseService<T>{
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(BaseServiceImpl.class);
 
     private Class<? extends Object> aClass;
     private Class<? extends Object> exampleClass;
@@ -32,9 +36,9 @@ public class BaseServiceImpl<T> implements BaseService<T>{
 
     @Override
     public PageInfoVo queryPages(QueryPageParam queryPageParam) {
-        //开始分页
-        PageHelper.startPage(queryPageParam.getPageNum(), queryPageParam.getPageSize());
         try {
+            //开始分页
+            PageHelper.startPage(queryPageParam.getPageNum(), queryPageParam.getPageSize());
             //反射获取方法
             System.out.println(exampleClass.getClass());
             Method method = aClass.getDeclaredMethod("selectByExample",exampleClass);
@@ -44,12 +48,40 @@ public class BaseServiceImpl<T> implements BaseService<T>{
             return PageInfoVo.getVo(pageInfo,queryPageParam.getPageSize());
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
+            LOGGER.error("BaseService.queryPages-->NoSuchMethodException",e.getStackTrace());
         } catch (IllegalAccessException e) {
             e.printStackTrace();
+            LOGGER.error("BaseService.queryPages-->IllegalAccessException",e.getStackTrace());
         } catch (InvocationTargetException e) {
             e.printStackTrace();
+            LOGGER.error("BaseService.queryPages-->InvocationTargetException",e.getStackTrace());
         }
+        return null;
+    }
 
+    /**
+     * 根据条件查找
+     *
+     * @param obj
+     * @return
+     */
+    @Override
+    public List<T> queryByCondition(Object obj) {
+        try {
+            //反射获取方法
+            Method method = aClass.getDeclaredMethod("selectByExample",exampleClass);
+            //执行方法
+            return (List<T>) method.invoke(this.obj, obj);
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+            LOGGER.error("BaseService.queryByCondition-->NoSuchMethodException",e.getStackTrace());
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+            LOGGER.error("BaseService.queryByCondition-->IllegalAccessException",e.getStackTrace());
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+            LOGGER.error("BaseService.queryByCondition-->InvocationTargetException",e.getStackTrace());
+        }
         return null;
     }
 
@@ -62,10 +94,13 @@ public class BaseServiceImpl<T> implements BaseService<T>{
             return t;
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
+            LOGGER.error("BaseService.findById-->NoSuchMethodException",e.getStackTrace());
         } catch (IllegalAccessException e) {
             e.printStackTrace();
+            LOGGER.error("BaseService.findById-->IllegalAccessException",e.getStackTrace());
         } catch (InvocationTargetException e) {
             e.printStackTrace();
+            LOGGER.error("BaseService.findById-->InvocationTargetException",e.getStackTrace());
         }
         return null;
     }
@@ -79,12 +114,15 @@ public class BaseServiceImpl<T> implements BaseService<T>{
             return row;
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
+            LOGGER.error("BaseService.add-->NoSuchMethodException",e.getStackTrace());
         } catch (IllegalAccessException e) {
             e.printStackTrace();
+            LOGGER.error("BaseService.add-->IllegalAccessException",e.getStackTrace());
         } catch (InvocationTargetException e) {
             e.printStackTrace();
+            LOGGER.error("BaseService.add-->InvocationTargetException",e.getStackTrace());
         }
-        return null;
+        return 0;
     }
 
     @Override
@@ -96,12 +134,15 @@ public class BaseServiceImpl<T> implements BaseService<T>{
             return row;
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
+            LOGGER.error("BaseService.edit-->NoSuchMethodException",e.getStackTrace());
         } catch (IllegalAccessException e) {
             e.printStackTrace();
+            LOGGER.error("BaseService.edit-->IllegalAccessException",e.getStackTrace());
         } catch (InvocationTargetException e) {
             e.printStackTrace();
+            LOGGER.error("BaseService.edit-->InvocationTargetException",e.getStackTrace());
         }
-        return null;
+        return 0;
     }
 
     @Override
@@ -113,12 +154,15 @@ public class BaseServiceImpl<T> implements BaseService<T>{
             return row;
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
+            LOGGER.error("BaseService.del-->NoSuchMethodException",e.getStackTrace());
         } catch (IllegalAccessException e) {
             e.printStackTrace();
+            LOGGER.error("BaseService.del-->IllegalAccessException",e.getStackTrace());
         } catch (InvocationTargetException e) {
             e.printStackTrace();
+            LOGGER.error("BaseService.del-->InvocationTargetException",e.getStackTrace());
         }
-        return null;
+        return 0;
     }
 
 }

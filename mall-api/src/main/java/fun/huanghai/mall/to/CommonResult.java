@@ -1,9 +1,12 @@
 package fun.huanghai.mall.to;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * 通用返回对象
@@ -86,7 +89,15 @@ public class CommonResult implements Serializable{
      * @param result 错误信息
      */
     public CommonResult validateFailed(BindingResult result) {
-        validateFailed(result.getFieldError().getDefaultMessage());
+        if(result.getErrorCount() > 1){
+            List<FieldError> errors = result.getFieldErrors();
+            JSONObject jo = new JSONObject();
+            errors.forEach((err) -> {
+                jo.put(err.getField(),err.getDefaultMessage());
+            });
+            validateFailed(JSON.toJSONString(jo));
+        } else
+        validateFailed(result.getFieldError().getField()+":"+result.getFieldError().getDefaultMessage());
         return this;
     }
 

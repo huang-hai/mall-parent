@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="fun.huanghai.mall.dao.UmsPermissionDaoExpand" >
+  <resultMap id="permissionExpandMap" type="fun.huanghai.mall.ums.pojo.UmsPermission" extends="fun.huanghai.mall.dao.UmsPermissionMapper.BaseResultMap">
+    
+  </resultMap>
+  <!--<resultMap id="BaseResultMap" type="fun.huanghai.mall.ums.pojo.UmsPermission" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="pid" property="pid" jdbcType="BIGINT" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="value" property="value" jdbcType="VARCHAR" />
+    <result column="icon" property="icon" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+    <result column="uri" property="uri" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="sort" property="sort" jdbcType="INTEGER" />
+  </resultMap>-->
+  <sql id="Base_Column_List" >
+    id, pid, name, value, icon, type, uri, status, create_time, sort
+  </sql>
+
+  <!-- 根据用户查找权限 -->
+  <select id="queryByAdmin">
+    select up.id, up.pid, up.name, up.value, up.icon, up.type, up.uri, up.status, up.create_time, up.sort
+    from ums_admin ua
+    inner join ums_admin_permission_relation upa
+    inner join ums_permission up
+    on ua.id = upa.admin_id
+    and upa.permission_id = up.id
+    where ua.id = #{adminId}
+  </select>
+
+  <!-- 根据用户角色查找权限 -->
+  <select id="queryByAdminRole">
+    select up.id, up.pid, up.name, up.value, up.icon, up.type, up.uri, up.status, up.create_time, up.sort
+    from ums_admin ua
+    inner join ums_admin_role_relation  uarr
+    inner join ums_role  ur
+    inner join ums_role_permission_relation urpr
+    inner join ums_permission up
+    on ua.id = uarr.admin_id
+    and uarr.role_id = ur.id
+    and ur.id = urpr.permission_id
+    and urpr.permission_id = up.id
+    where ua.id = #{adminId}
+  </select>
+
+</mapper>

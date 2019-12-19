@@ -2,20 +2,25 @@ package fun.huanghai.mall.ums.controller;
 
 import fun.huanghai.mall.qo.QueryPageParam;
 import fun.huanghai.mall.ums.pojo.UmsAdmin;
-import fun.huanghai.mall.ums.pojo.UmsAdminExample;
 import fun.huanghai.mall.ums.pojo.UmsAdminExpand;
 import fun.huanghai.mall.ums.service.UmsAdminService;
 import fun.huanghai.mall.to.CommonResult;
 import fun.huanghai.mall.utils.JwtTokenUtil;
 import fun.huanghai.mall.vo.PageInfoVo;
 import fun.huanghai.mall.vo.UmsAdminLoginParam;
-import org.apache.dubbo.common.utils.StringUtils;
+import fun.huanghai.mall.vo.UmsAdminParam;
+import org.apache.dubbo.config.annotation.Method;
 import org.apache.dubbo.config.annotation.Reference;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -24,7 +29,11 @@ import java.util.Map;
 @RequestMapping("/admin")
 public class UmsAdminController {
 
-    @Reference
+    private static final Logger LOGGER = LoggerFactory.getLogger(UmsAdminController.class);
+
+    @Reference(methods = {
+            @Method(name="add",retries = 0)/*新增操作只允许执行一次*/
+    })
     private UmsAdminService umsAdminService;
 
     @Value("${mall.jwt.tokenHeader}")
@@ -66,7 +75,7 @@ public class UmsAdminController {
         String username = jwtTokenUtil.getUserNameFromToken(cusToken.replace(tokenHead,""));
         if(null == username) return new CommonResult().validateFailed("token无效或已过期");
         else {
-            UmsAdminExpand adminExpand = umsAdminService.getAdminInfo(username);
+            UmsAdminExpand adminExpand = umsAdminService.queryAdminInfo(username);
             Map<String,Object> returnMap = new HashMap<>();
             returnMap.put("icon",adminExpand.getIcon());
             returnMap.put("username",adminExpand.getUsername());
@@ -81,7 +90,7 @@ public class UmsAdminController {
      * @return
      */
     @PostMapping("/delete/{id}")
-    public CommonResult del(@PathVariable("id") Long id){
+    public CommonResult del(@PathVariable("id") Long id) throws Exception {
         UmsAdmin admin = new UmsAdmin();
         admin.setStatus(0);
         admin.setId(id);
@@ -100,14 +109,48 @@ public class UmsAdminController {
     @GetMapping("/list")
     public CommonResult list(@RequestParam(name = "name",required = false) String name,
                              @RequestParam(name = "pageSize",defaultValue = "10") Integer pageSize,
-                             @RequestParam(name = "pageNum",defaultValue = "1") Integer pageNum){
-        UmsAdminExample example = new UmsAdminExample();
-        if(StringUtils.isNotEmpty(name)){
-            example.createCriteria().andUsernameLike("%"+name+"%");
-            example.or(example.createCriteria().andNickNameLike("%"+name+"%"));
-        }
-        PageInfoVo pageInfoVo = umsAdminService.queryPages(new QueryPageParam(pageNum, pageSize, example));
+                             @RequestParam(name = "pageNum",defaultValue = "1") Integer pageNum) throws Exception {
+        PageInfoVo pageInfoVo = umsAdminService.queryPages(new QueryPageParam(pageNum, pageSize, name));
 
         return new CommonResult().success(pageInfoVo);
+    }
+
+    /**
+     * 注册后台管理用户
+     * @Valid 开启参数校验
+     * @param adminParam
+     * @param result
+     * @return
+     */
+    @PostMapping("/register")
+    public CommonResult register(@Valid @RequestBody UmsAdminParam adminParam, BindingResult result) throws Exception {
+        System.out.println(adminParam);
+        UmsAdmin admin = new UmsAdmin();
+        //拷贝属性
+        BeanUtils.copyProperties(adminParam,admin);
+        System.out.println(admin);
+        Integer row = umsAdminService.add(admin);
+        if(row>0) return new CommonResult().success(adminParam);
+        else if(row==-1) return new CommonResult().validateFailed("用户名已存在！");
+        else return new CommonResult().failed();
+    }
+
+    /**
+     * 退出功能
+     * @return
+     */
+    @GetMapping("/logout")
+    public CommonResult logout(){
+        return new CommonResult().success(null);
+    }
+
+    /**
+     * 获取权限列表
+     * @param adminId
+     * @return
+     */
+    @GetMapping("/permission/{adminId}")
+    public CommonResult queryPermissions(@PathVariable("adminId") Long adminId){
+        return new CommonResult().success(umsAdminService.queryByAdminId(adminId));
     }
 }

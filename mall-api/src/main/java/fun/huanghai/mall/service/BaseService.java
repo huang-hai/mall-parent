@@ -15,6 +15,13 @@ public interface BaseService<T> {
     public PageInfoVo queryPages(QueryPageParam queryPageParam);
 
     /**
+     * 根据条件查找
+     * @param obj
+     * @return
+     */
+    public List<T> queryByCondition(Object obj);
+
+    /**
      * 根据ID查询
      * @param id
      * @return
