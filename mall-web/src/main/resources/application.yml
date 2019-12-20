@@ -16,3 +16,5 @@ mall:
     secret: mall_2019
     expiration: 604800
     tokenHead: Bearer
+logging:
+  path: F:\mall\localhost\

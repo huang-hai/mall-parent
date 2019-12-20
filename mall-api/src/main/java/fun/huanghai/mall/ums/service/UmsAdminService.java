@@ -7,6 +7,9 @@ import fun.huanghai.mall.ums.pojo.UmsPermission;
 
 import java.util.List;
 
+/**
+ * Admin模块服务接口
+ */
 public interface UmsAdminService extends BaseService<UmsAdmin>{
 
     /**
@@ -15,19 +18,21 @@ public interface UmsAdminService extends BaseService<UmsAdmin>{
      * @param password
      * @return
      */
-    public UmsAdmin login(String username, String password);
+    UmsAdmin login(String username, String password);
 
     /**
      * 获取当前登录用户的信息
      * @param username
      * @return
      */
-    public UmsAdminExpand queryAdminInfo(String username);
+    UmsAdminExpand queryAdminInfo(String username);
 
     /**
-     * 获取用户权限列表
-     * @param adminId
+     * 更新密码
+     * @param username
+     * @param oldPass
+     * @param newPass
      * @return
      */
-    public List<UmsPermission> queryByAdminId(Long adminId);
+    Integer updatePassword(String username, String oldPass ,String newPass);
 }

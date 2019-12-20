@@ -1,14 +1,15 @@
 package fun.huanghai.mall.ums.controller;
 
 import fun.huanghai.mall.qo.QueryPageParam;
+import fun.huanghai.mall.ums.exception.UmsWebException;
 import fun.huanghai.mall.ums.pojo.UmsAdmin;
 import fun.huanghai.mall.ums.pojo.UmsAdminExpand;
 import fun.huanghai.mall.ums.service.UmsAdminService;
 import fun.huanghai.mall.to.CommonResult;
+import fun.huanghai.mall.ums.service.UmsPermissionService;
+import fun.huanghai.mall.ums.service.UmsRoleService;
 import fun.huanghai.mall.utils.JwtTokenUtil;
-import fun.huanghai.mall.vo.PageInfoVo;
-import fun.huanghai.mall.vo.UmsAdminLoginParam;
-import fun.huanghai.mall.vo.UmsAdminParam;
+import fun.huanghai.mall.vo.*;
 import org.apache.dubbo.config.annotation.Method;
 import org.apache.dubbo.config.annotation.Reference;
 import org.slf4j.Logger;
@@ -21,9 +22,13 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * 本类的用户是指后台用户
+ */
 @CrossOrigin//允许跨域请求
 @RestController
 @RequestMapping("/admin")
@@ -35,6 +40,19 @@ public class UmsAdminController {
             @Method(name="add",retries = 0)/*新增操作只允许执行一次*/
     })
     private UmsAdminService umsAdminService;
+
+    @Reference(methods = {
+            @Method(name="add",retries = 0),
+            @Method(name="addAdminPermissionRelation",retries = 0),
+    })
+    private UmsPermissionService umsPermissionService;
+
+
+    @Reference(methods = {
+            @Method(name="add",retries = 0),
+            @Method(name="addAdminRoleRelation",retries = 0)
+    })
+    private UmsRoleService umsRoleService;
 
     @Value("${mall.jwt.tokenHeader}")
     private String tokenHeader;
@@ -96,6 +114,7 @@ public class UmsAdminController {
         admin.setId(id);
         Integer row = umsAdminService.edit(admin);
         if(row > 0) return new CommonResult().success(row);
+        else if(row==-1) throw new UmsWebException("系统错误！");
         else return new CommonResult().failed();
     }
 
@@ -116,7 +135,7 @@ public class UmsAdminController {
     }
 
     /**
-     * 注册后台管理用户
+     * 注册用户
      * @Valid 开启参数校验
      * @param adminParam
      * @param result
@@ -131,7 +150,8 @@ public class UmsAdminController {
         System.out.println(admin);
         Integer row = umsAdminService.add(admin);
         if(row>0) return new CommonResult().success(adminParam);
-        else if(row==-1) return new CommonResult().validateFailed("用户名已存在！");
+        else if(row==0) return new CommonResult().validateFailed("用户名已存在！");
+        else if(row==-1) throw new UmsWebException("系统错误！");
         else return new CommonResult().failed();
     }
 
@@ -151,6 +171,78 @@ public class UmsAdminController {
      */
     @GetMapping("/permission/{adminId}")
     public CommonResult queryPermissions(@PathVariable("adminId") Long adminId){
-        return new CommonResult().success(umsAdminService.queryByAdminId(adminId));
+        return new CommonResult().success(umsPermissionService.queryByAdminId(adminId));
+    }
+
+    /**
+     * 添加用户权限
+     * @param param
+     * @return
+     */
+    @PostMapping("/permission/update")
+    public CommonResult updatePermissions(@Valid AdminPermissionRelationParam param,BindingResult result) throws Exception {
+        Integer row = umsPermissionService.addAdminPermissionRelation(param.getAdminId()
+                , Arrays.asList(param.getPermissionIds()));
+        if(row > 0) return new CommonResult().success(row);
+        else if(row == -1) throw new UmsWebException("系统错误");
+        else return new CommonResult().failed();
+    }
+
+    /**
+     * 查询用户角色列表
+     * @param adminId
+     * @return
+     */
+    @GetMapping("/role/{adminId}")
+    public CommonResult queryRoles(@PathVariable("adminId") Long adminId){
+        return new CommonResult().success(umsRoleService.queryByAdminId(adminId));
+    }
+
+    /**
+     * 添加或更新用户角色
+     * @param param
+     * @param result
+     * @return
+     * @throws Exception
+     */
+    @PostMapping("/role/update")
+    public CommonResult updateRoles(@Valid AdminRoleRelationParam param, BindingResult result) throws Exception {
+        Integer row = umsRoleService.addAdminRoleRelation(param.getAdminId()
+                , Arrays.asList(param.getRoleIds()));
+        if(row > 0) return new CommonResult().success(row);
+        else if(row == -1) throw new UmsWebException("系统错误");
+        else return new CommonResult().failed();
+    }
+
+    /**
+     * 刷新token
+     * @param request
+     * @return
+     */
+    @GetMapping("/token/refresh")
+    public CommonResult refreshToken(HttpServletRequest request){
+        String token = request.getHeader(tokenHeader);
+        String refreshToken = jwtTokenUtil.refreshToken(token);
+        if(null == refreshToken) return new CommonResult().validateFailed("token已过期！");
+        Map<String,String> map = new HashMap<>();
+        map.put("token",refreshToken);
+        map.put("tokenHead",tokenHead);
+        return new CommonResult().success(map);
+    }
+
+    /**
+     * 更新密码
+     * @param adminPasswordParam
+     * @return
+     */
+    @PostMapping("/updatePassword")
+    public CommonResult updatePassword(@Valid @RequestBody UpdateAdminPasswordParam adminPasswordParam)
+            throws UmsWebException {
+        Integer row = umsAdminService.updatePassword(adminPasswordParam.getUsername(),
+                adminPasswordParam.getOldPassword(),
+                adminPasswordParam.getNewPassword());
+        if(row > 0) return new CommonResult().success(row);
+        else if(row == -1) throw new UmsWebException("系统错误");
+        else return new CommonResult().failed();
     }
 }

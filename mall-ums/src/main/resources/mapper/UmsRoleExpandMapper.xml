@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="fun.huanghai.mall.dao.UmsRoleDaoExpand" >
+  <resultMap id="expandMap" type="fun.huanghai.mall.ums.pojo.UmsRole" extends="fun.huanghai.mall.dao.UmsRoleMapper.BaseResultMap">
+  </resultMap>
+  
+  <sql id="expandList" >
+    ${alias}.id, ${alias}.name, ${alias}.description, ${alias}.admin_count, ${alias}.create_time, ${alias}.status, ${alias}.sort
+  </sql>
+  
+  <select id="queryByAdminId" resultMap="expandMap">
+    select <include refid="expandList"><property name="alias" value="ur"></property></include>
+    from ums_admin ua
+    inner join ums_admin_role_relation uarr
+    inner join ums_role ur
+    on ua.id = uarr.admin_id
+    and uarr.role_id = ur.id
+    where ua.id = #{adminId}
+  </select>
+</mapper>

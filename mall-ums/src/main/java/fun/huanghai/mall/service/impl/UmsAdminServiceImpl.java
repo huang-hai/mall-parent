@@ -2,13 +2,11 @@ package fun.huanghai.mall.service.impl;
 
 import fun.huanghai.mall.dao.UmsAdminDaoExpand;
 import fun.huanghai.mall.dao.UmsAdminMapper;
-import fun.huanghai.mall.dao.UmsPermissionDaoExpand;
-import fun.huanghai.mall.exception.UmsException;
 import fun.huanghai.mall.qo.QueryPageParam;
+import fun.huanghai.mall.sys.SysEnum;
 import fun.huanghai.mall.ums.pojo.UmsAdmin;
 import fun.huanghai.mall.ums.pojo.UmsAdminExample;
 import fun.huanghai.mall.ums.pojo.UmsAdminExpand;
-import fun.huanghai.mall.ums.pojo.UmsPermission;
 import fun.huanghai.mall.ums.service.UmsAdminService;
 import fun.huanghai.mall.vo.PageInfoVo;
 import org.apache.dubbo.common.utils.StringUtils;
@@ -44,10 +42,6 @@ public class UmsAdminServiceImpl extends BaseServiceImpl<UmsAdmin> implements Um
         super.setExampleClass(UmsAdminExample.class);
     }
 
-    @Autowired
-    @Qualifier("umsPermissionDaoExpand")
-    private UmsPermissionDaoExpand umsPermissionDaoExpand;
-
     /**
      * 登录功能
      *
@@ -81,34 +75,57 @@ public class UmsAdminServiceImpl extends BaseServiceImpl<UmsAdmin> implements Um
     }
 
     /**
-     * 获取用户权限列表
+     * 更新密码
      *
-     * @param adminId
+     * @param username
+     * @param oldPass
+     * @param newPass
      * @return
      */
     @Override
-    public List<UmsPermission> queryByAdminId(Long adminId) {
-        List<UmsPermission> permissions = umsPermissionDaoExpand.queryByAdmin(adminId);
-        permissions.addAll(umsPermissionDaoExpand.queryByAdminRole(adminId));
-        return permissions;
+    public Integer updatePassword(String username, String oldPass, String newPass) {
+        try {
+            UmsAdminExample example = new UmsAdminExample();
+            example.createCriteria().andUsernameEqualTo(username);
+            List<UmsAdmin> umsAdmins = super.queryByCondition(example);
+            if(umsAdmins.size()>0){
+                UmsAdmin umsAdmin = umsAdmins.get(0);
+                String password = umsAdmin.getPassword();
+                String md5OldPass = DigestUtils.md5DigestAsHex(oldPass.getBytes());
+                if(md5OldPass.equals(password)){
+                    String md5NewPass = DigestUtils.md5DigestAsHex(newPass.getBytes());
+                    umsAdmin.setPassword(md5NewPass);
+                    return super.edit(umsAdmin);
+                } else return -2;
+            } else return -3;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return -1;
+        }
     }
 
     @Override
     public Integer add(UmsAdmin umsAdmin) {
-        String password = umsAdmin.getPassword();
-        String md5Password = DigestUtils.md5DigestAsHex(password.getBytes());
-        umsAdmin.setPassword(md5Password);
-        umsAdmin.setCreateTime(new Date());
-        umsAdmin.setStatus(1);
+        try {
+            String password = umsAdmin.getPassword();
+            String md5Password = DigestUtils.md5DigestAsHex(password.getBytes());
+            umsAdmin.setPassword(md5Password);
+            umsAdmin.setCreateTime(new Date());
+            umsAdmin.setStatus(1);
 
-        //查找用户名是否存在
-        UmsAdminExample example = new UmsAdminExample();
-        example.createCriteria().andUsernameEqualTo(umsAdmin.getUsername());
-        List<UmsAdmin> datas = super.queryByCondition(example);
-        if(datas.size() > 0){
+            //查找用户名是否存在
+            UmsAdminExample example = new UmsAdminExample();
+            example.createCriteria().andUsernameEqualTo(umsAdmin.getUsername());
+            List<UmsAdmin> datas = super.queryByCondition(example);
+            if(datas.size() > 0){
+                return 0;
+            }
+            return super.add(umsAdmin);
+        } catch (Exception e) {
+            e.printStackTrace();
+            LOGGER.error("UmsAdminServiceImpl.add-->Exception,{}",e.getStackTrace());
             return -1;
         }
-        return super.add(umsAdmin);
     }
 
     @Override

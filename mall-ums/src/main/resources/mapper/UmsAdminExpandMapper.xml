@@ -8,13 +8,16 @@
       <result column="ur_time" property="createTime"/>
     </collection>
   </resultMap>
-  <sql id="Base_Column_List" >
-    id, username, password, icon, email, nick_name, note, create_time, login_time, status
+
+  <sql id="expandList" >
+    ${alias}.id, ${alias}.username, ${alias}.password, ${alias}.icon,
+    ${alias}.email, ${alias}.nick_name, ${alias}.note, ${alias}.create_time,
+    ${alias}.login_time, ${alias}.status
   </sql>
 
   <!-- 根据用户名查询角色列表 -->
   <select id="findByUsername" resultMap="expandMap">
-    select ua.id, username, password, icon, email, nick_name, note, ua.create_time, login_time, ua.status ,
+    select <include refid="expandList"><property name="alias" value="ua"/></include> ,
     ur.id ur_id, NAME, description, admin_count, ur.create_time ur_time, ur.status ur_status, sort
     from ums_admin ua
     inner join ums_admin_role_relation uar

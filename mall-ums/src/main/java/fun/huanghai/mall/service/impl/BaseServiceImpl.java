@@ -122,7 +122,7 @@ public class BaseServiceImpl<T> implements BaseService<T>{
             e.printStackTrace();
             LOGGER.error("BaseService.add-->InvocationTargetException",e.getStackTrace());
         }
-        return 0;
+        return -1;
     }
 
     @Override
@@ -142,7 +142,7 @@ public class BaseServiceImpl<T> implements BaseService<T>{
             e.printStackTrace();
             LOGGER.error("BaseService.edit-->InvocationTargetException",e.getStackTrace());
         }
-        return 0;
+        return -1;
     }
 
     @Override
@@ -162,7 +162,7 @@ public class BaseServiceImpl<T> implements BaseService<T>{
             e.printStackTrace();
             LOGGER.error("BaseService.del-->InvocationTargetException",e.getStackTrace());
         }
-        return 0;
+        return -1;
     }
 
 }

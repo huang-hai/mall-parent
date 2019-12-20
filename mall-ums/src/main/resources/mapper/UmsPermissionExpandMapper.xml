@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="fun.huanghai.mall.dao.UmsPermissionDaoExpand" >
-  <resultMap id="permissionExpandMap" type="fun.huanghai.mall.ums.pojo.UmsPermission" extends="fun.huanghai.mall.dao.UmsPermissionMapper.BaseResultMap">
+  <resultMap id="expandMap" type="fun.huanghai.mall.ums.pojo.UmsPermission" extends="fun.huanghai.mall.dao.UmsPermissionMapper.BaseResultMap">
     
   </resultMap>
   <!--<resultMap id="BaseResultMap" type="fun.huanghai.mall.ums.pojo.UmsPermission" >
@@ -16,13 +16,13 @@
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="sort" property="sort" jdbcType="INTEGER" />
   </resultMap>-->
-  <sql id="Base_Column_List" >
-    id, pid, name, value, icon, type, uri, status, create_time, sort
+  <sql id="expandList" >
+    ${alias}.id, ${alias}.pid, ${alias}.name, ${alias}.value, ${alias}.icon, ${alias}.type, ${alias}.uri, ${alias}.status, ${alias}.create_time, ${alias}.sort
   </sql>
 
   <!-- 根据用户查找权限 -->
-  <select id="queryByAdmin">
-    select up.id, up.pid, up.name, up.value, up.icon, up.type, up.uri, up.status, up.create_time, up.sort
+  <select id="queryByAdmin" resultMap="expandMap">
+    select <include refid="expandList"><property name="alias" value="up"></property></include>
     from ums_admin ua
     inner join ums_admin_permission_relation upa
     inner join ums_permission up
@@ -32,8 +32,8 @@
   </select>
 
   <!-- 根据用户角色查找权限 -->
-  <select id="queryByAdminRole">
-    select up.id, up.pid, up.name, up.value, up.icon, up.type, up.uri, up.status, up.create_time, up.sort
+  <select id="queryByAdminRole" resultMap="expandMap">
+    select <include refid="expandList"><property name="alias" value="up"></property></include>
     from ums_admin ua
     inner join ums_admin_role_relation  uarr
     inner join ums_role  ur
