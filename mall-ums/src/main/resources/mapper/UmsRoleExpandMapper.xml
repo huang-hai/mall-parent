@@ -16,5 +16,15 @@
     on ua.id = uarr.admin_id
     and uarr.role_id = ur.id
     where ua.id = #{adminId}
+    and ur.status = 1
   </select>
+
+  <delete id="delAll">
+    update ums_role
+    set status = 0
+    where id in
+    <foreach collection="ids" open="(" close=")" separator="," item="id">
+      #{id}
+    </foreach>
+  </delete>
 </mapper>

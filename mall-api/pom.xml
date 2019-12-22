@@ -11,6 +11,7 @@
 
     <artifactId>mall-api</artifactId>
     <properties>
+        <java.vesion>1.8</java.vesion>
         <pagehelper-starter.version>1.2.10</pagehelper-starter.version>
         <pagehelper.version>5.1.8</pagehelper.version>
     </properties>
@@ -39,5 +40,17 @@
             <version>${pagehelper.version}</version>
         </dependency>
     </dependencies>
-
+    <!-- 局部jdk配置，pom.xml中 -->
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>

@@ -3,6 +3,7 @@ package fun.huanghai.mall.service.impl;
 import fun.huanghai.mall.dao.UmsAdminRoleRelationDaoExpand;
 import fun.huanghai.mall.dao.UmsRoleDaoExpand;
 import fun.huanghai.mall.dao.UmsRoleMapper;
+import fun.huanghai.mall.sys.SysVariable;
 import fun.huanghai.mall.ums.pojo.UmsAdminRoleRelation;
 import fun.huanghai.mall.ums.pojo.UmsRole;
 import fun.huanghai.mall.ums.pojo.UmsRoleExample;
@@ -79,13 +80,51 @@ public class UmsRoleServiceImpl extends BaseServiceImpl<UmsRole> implements UmsR
                     record.setRoleId(id);
                     records.add(record);
                 });
-                return umsAdminRoleRelationDaoExpand.insertAll(records);
+
+                row = umsAdminRoleRelationDaoExpand.insertAll(records);
+                if(row>0) return SysVariable.SYS_SUCCESS;
+                return SysVariable.SYS_FAILURE;
             }
-            return 0;
+            return SysVariable.SYS_FAILURE;
         } catch (Exception e) {
             e.printStackTrace();
             LOGGER.error("UmsRoleServiceImpl.addAdminRoleRelation-->Exception,{}",e.getStackTrace());
-            return -1;
+            return SysVariable.SYS_ERROR;
         }
     }
+
+    @Override
+    public Integer delAll(Long[] ids) {
+        try {
+            int row = umsRoleDaoExpand.delAll(ids);
+            if(row>0) return SysVariable.SYS_SUCCESS;
+            return SysVariable.SYS_FAILURE;
+        } catch (Exception e) {
+            e.printStackTrace();
+            LOGGER.error("UmsRoleServiceImpl.delAll-->Exception,{}",e.getStackTrace());
+            return SysVariable.SYS_ERROR;
+        }
+    }
+
+    @Override
+    public Integer add(UmsRole role) {
+        try {
+            UmsRoleExample example = new UmsRoleExample();
+            example.createCriteria().andNameEqualTo(role.getName());
+            List<UmsRole> umsRoles = super.queryByCondition(example);
+            if(umsRoles.size()>0){
+                return SysVariable.USERNAME_EXIST;
+            }
+
+            int row = super.add(role);
+            if(row>0) return SysVariable.SYS_SUCCESS;
+            return SysVariable.SYS_FAILURE;
+        } catch (Exception e) {
+            e.printStackTrace();
+            LOGGER.error("UmsRoleServiceImpl.add-->Exception,{}",e.getStackTrace());
+            return SysVariable.SYS_ERROR;
+        }
+    }
+
+
 }

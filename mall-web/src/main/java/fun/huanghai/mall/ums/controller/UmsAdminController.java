@@ -1,6 +1,7 @@
 package fun.huanghai.mall.ums.controller;
 
 import fun.huanghai.mall.qo.QueryPageParam;
+import fun.huanghai.mall.sys.SysVariable;
 import fun.huanghai.mall.ums.exception.UmsWebException;
 import fun.huanghai.mall.ums.pojo.UmsAdmin;
 import fun.huanghai.mall.ums.pojo.UmsAdminExpand;
@@ -112,9 +113,9 @@ public class UmsAdminController {
         UmsAdmin admin = new UmsAdmin();
         admin.setStatus(0);
         admin.setId(id);
-        Integer row = umsAdminService.edit(admin);
-        if(row > 0) return new CommonResult().success(row);
-        else if(row==-1) throw new UmsWebException("系统错误！");
+        Integer res = umsAdminService.edit(admin);
+        if(res == SysVariable.SYS_SUCCESS) return new CommonResult().success(res);
+        else if(res==SysVariable.SYS_ERROR) throw new UmsWebException("系统错误！");
         else return new CommonResult().failed();
     }
 
@@ -135,6 +136,16 @@ public class UmsAdminController {
     }
 
     /**
+     * 获取用户信息
+     * @param id
+     * @return
+     */
+    @GetMapping("/{id}")
+    public CommonResult admin(@PathVariable("id") Long id){
+        return new CommonResult().success(umsAdminService.findById(id));
+    }
+
+    /**
      * 注册用户
      * @Valid 开启参数校验
      * @param adminParam
@@ -142,16 +153,16 @@ public class UmsAdminController {
      * @return
      */
     @PostMapping("/register")
-    public CommonResult register(@Valid @RequestBody UmsAdminParam adminParam, BindingResult result) throws Exception {
+    public CommonResult register(@Valid @RequestBody UmsAdminParam adminParam, BindingResult result) throws UmsWebException {
         System.out.println(adminParam);
         UmsAdmin admin = new UmsAdmin();
         //拷贝属性
         BeanUtils.copyProperties(adminParam,admin);
         System.out.println(admin);
-        Integer row = umsAdminService.add(admin);
-        if(row>0) return new CommonResult().success(adminParam);
-        else if(row==0) return new CommonResult().validateFailed("用户名已存在！");
-        else if(row==-1) throw new UmsWebException("系统错误！");
+        Integer res = umsAdminService.add(admin);
+        if(res==SysVariable.SYS_SUCCESS) return new CommonResult().success(adminParam);
+        else if(res==SysVariable.USERNAME_EXIST) return new CommonResult().validateFailed("用户名已存在！");
+        else if(res==SysVariable.SYS_ERROR) throw new UmsWebException("系统错误！");
         else return new CommonResult().failed();
     }
 
@@ -181,10 +192,10 @@ public class UmsAdminController {
      */
     @PostMapping("/permission/update")
     public CommonResult updatePermissions(@Valid AdminPermissionRelationParam param,BindingResult result) throws Exception {
-        Integer row = umsPermissionService.addAdminPermissionRelation(param.getAdminId()
+        Integer res = umsPermissionService.addAdminPermissionRelation(param.getAdminId()
                 , Arrays.asList(param.getPermissionIds()));
-        if(row > 0) return new CommonResult().success(row);
-        else if(row == -1) throw new UmsWebException("系统错误");
+        if(res == SysVariable.SYS_SUCCESS) return new CommonResult().success(res);
+        else if(res == SysVariable.SYS_ERROR) throw new UmsWebException("系统错误");
         else return new CommonResult().failed();
     }
 
@@ -207,10 +218,10 @@ public class UmsAdminController {
      */
     @PostMapping("/role/update")
     public CommonResult updateRoles(@Valid AdminRoleRelationParam param, BindingResult result) throws Exception {
-        Integer row = umsRoleService.addAdminRoleRelation(param.getAdminId()
+        Integer res = umsRoleService.addAdminRoleRelation(param.getAdminId()
                 , Arrays.asList(param.getRoleIds()));
-        if(row > 0) return new CommonResult().success(row);
-        else if(row == -1) throw new UmsWebException("系统错误");
+        if(res == SysVariable.SYS_SUCCESS) return new CommonResult().success(res);
+        else if(res == SysVariable.SYS_ERROR) throw new UmsWebException("系统错误");
         else return new CommonResult().failed();
     }
 
@@ -236,13 +247,16 @@ public class UmsAdminController {
      * @return
      */
     @PostMapping("/updatePassword")
-    public CommonResult updatePassword(@Valid @RequestBody UpdateAdminPasswordParam adminPasswordParam)
+    public CommonResult updatePassword(@Valid @RequestBody UpdateAdminPasswordParam adminPasswordParam,
+                                       BindingResult result)
             throws UmsWebException {
-        Integer row = umsAdminService.updatePassword(adminPasswordParam.getUsername(),
+        Integer res = umsAdminService.updatePassword(adminPasswordParam.getUsername(),
                 adminPasswordParam.getOldPassword(),
                 adminPasswordParam.getNewPassword());
-        if(row > 0) return new CommonResult().success(row);
-        else if(row == -1) throw new UmsWebException("系统错误");
+        if(res == SysVariable.SYS_SUCCESS) return new CommonResult().success(res);
+        else if(res == SysVariable.USERNAME_ERROR) return new CommonResult().validateFailed("用户名错误");
+        else if(res == SysVariable.PASSWORD_ERROR) return new CommonResult().validateFailed("旧密码错误");
+        else if(res == SysVariable.SYS_ERROR) throw new UmsWebException("系统错误");
         else return new CommonResult().failed();
     }
 }

@@ -3,7 +3,7 @@ package fun.huanghai.mall.service.impl;
 import fun.huanghai.mall.dao.UmsAdminDaoExpand;
 import fun.huanghai.mall.dao.UmsAdminMapper;
 import fun.huanghai.mall.qo.QueryPageParam;
-import fun.huanghai.mall.sys.SysEnum;
+import fun.huanghai.mall.sys.SysVariable;
 import fun.huanghai.mall.ums.pojo.UmsAdmin;
 import fun.huanghai.mall.ums.pojo.UmsAdminExample;
 import fun.huanghai.mall.ums.pojo.UmsAdminExpand;
@@ -96,11 +96,11 @@ public class UmsAdminServiceImpl extends BaseServiceImpl<UmsAdmin> implements Um
                     String md5NewPass = DigestUtils.md5DigestAsHex(newPass.getBytes());
                     umsAdmin.setPassword(md5NewPass);
                     return super.edit(umsAdmin);
-                } else return -2;
-            } else return -3;
+                } else return SysVariable.PASSWORD_ERROR;
+            } else return SysVariable.USERNAME_ERROR;
         } catch (Exception e) {
             e.printStackTrace();
-            return -1;
+            return SysVariable.SYS_ERROR;
         }
     }
 
@@ -118,13 +118,15 @@ public class UmsAdminServiceImpl extends BaseServiceImpl<UmsAdmin> implements Um
             example.createCriteria().andUsernameEqualTo(umsAdmin.getUsername());
             List<UmsAdmin> datas = super.queryByCondition(example);
             if(datas.size() > 0){
-                return 0;
+                return SysVariable.USERNAME_EXIST;
             }
-            return super.add(umsAdmin);
+            int row = super.add(umsAdmin);
+            if(row>0) return SysVariable.SYS_SUCCESS;
+            return SysVariable.SYS_FAILURE;
         } catch (Exception e) {
             e.printStackTrace();
             LOGGER.error("UmsAdminServiceImpl.add-->Exception,{}",e.getStackTrace());
-            return -1;
+            return SysVariable.SYS_ERROR;
         }
     }
 

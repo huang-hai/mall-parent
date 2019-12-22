@@ -29,6 +29,7 @@
     on ua.id = upa.admin_id
     and upa.permission_id = up.id
     where ua.id = #{adminId}
+    and up.status = 1
   </select>
 
   <!-- 根据用户角色查找权限 -->
@@ -44,6 +45,7 @@
     and ur.id = urpr.permission_id
     and urpr.permission_id = up.id
     where ua.id = #{adminId}
+    and up.status = 1
   </select>
 
 </mapper>

@@ -4,8 +4,10 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import fun.huanghai.mall.qo.QueryPageParam;
 import fun.huanghai.mall.service.BaseService;
+import fun.huanghai.mall.sys.SysVariable;
 import fun.huanghai.mall.util.SpringUtil;
 import fun.huanghai.mall.vo.PageInfoVo;
+import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
@@ -111,7 +113,8 @@ public class BaseServiceImpl<T> implements BaseService<T>{
             //反射获取方法
             Method method = aClass.getDeclaredMethod("insert",t.getClass());
             Integer row = (Integer) method.invoke(obj, t);
-            return row;
+            if(row > 0) return SysVariable.SYS_SUCCESS;
+            return SysVariable.SYS_FAILURE;
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
             LOGGER.error("BaseService.add-->NoSuchMethodException",e.getStackTrace());
@@ -122,7 +125,7 @@ public class BaseServiceImpl<T> implements BaseService<T>{
             e.printStackTrace();
             LOGGER.error("BaseService.add-->InvocationTargetException",e.getStackTrace());
         }
-        return -1;
+        return SysVariable.SYS_ERROR;
     }
 
     @Override
@@ -131,7 +134,8 @@ public class BaseServiceImpl<T> implements BaseService<T>{
             //反射获取方法
             Method method = aClass.getDeclaredMethod("updateByPrimaryKeySelective",t.getClass());
             Integer row = (Integer) method.invoke(obj, t);
-            return row;
+            if(row>0) return SysVariable.SYS_SUCCESS;
+            return SysVariable.SYS_FAILURE;
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
             LOGGER.error("BaseService.edit-->NoSuchMethodException",e.getStackTrace());
@@ -142,7 +146,7 @@ public class BaseServiceImpl<T> implements BaseService<T>{
             e.printStackTrace();
             LOGGER.error("BaseService.edit-->InvocationTargetException",e.getStackTrace());
         }
-        return -1;
+        return SysVariable.SYS_ERROR;
     }
 
     @Override
@@ -151,7 +155,8 @@ public class BaseServiceImpl<T> implements BaseService<T>{
             //反射获取方法
             Method method = aClass.getDeclaredMethod("deleteByPrimaryKey",Long.class);
             Integer row = (Integer) method.invoke(obj, id);
-            return row;
+            if(row>0) return SysVariable.SYS_SUCCESS;
+            return SysVariable.SYS_FAILURE;
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
             LOGGER.error("BaseService.del-->NoSuchMethodException",e.getStackTrace());
@@ -162,7 +167,7 @@ public class BaseServiceImpl<T> implements BaseService<T>{
             e.printStackTrace();
             LOGGER.error("BaseService.del-->InvocationTargetException",e.getStackTrace());
         }
-        return -1;
+        return SysVariable.SYS_ERROR;
     }
 
 }

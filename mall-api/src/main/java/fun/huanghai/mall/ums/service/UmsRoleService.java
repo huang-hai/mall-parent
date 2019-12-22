@@ -21,4 +21,11 @@ public interface UmsRoleService extends BaseService<UmsRole>{
      * @return
      */
     Integer addAdminRoleRelation(Long adminId,List<Long> roleIds);
+
+    /**
+     * 批量删除
+     * @param ids
+     * @return
+     */
+    Integer delAll(Long[] ids);
 }

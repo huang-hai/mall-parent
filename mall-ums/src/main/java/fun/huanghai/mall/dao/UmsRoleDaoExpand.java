@@ -14,4 +14,11 @@ public interface UmsRoleDaoExpand extends UmsRoleMapper{
      * @return
      */
     List<UmsRole> queryByAdminId(@Param("adminId") Long adminId);
+
+    /**
+     * 批量删除角色
+     * @param ids
+     * @return
+     */
+    int delAll(@Param("ids") Long[] ids);
 }

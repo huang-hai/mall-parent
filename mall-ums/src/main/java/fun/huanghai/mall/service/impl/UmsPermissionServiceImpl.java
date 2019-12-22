@@ -3,6 +3,7 @@ package fun.huanghai.mall.service.impl;
 import fun.huanghai.mall.dao.UmsAdminPermissionRelationDaoExpand;
 import fun.huanghai.mall.dao.UmsPermissionDaoExpand;
 import fun.huanghai.mall.dao.UmsPermissionMapper;
+import fun.huanghai.mall.sys.SysVariable;
 import fun.huanghai.mall.ums.pojo.UmsAdminPermissionRelation;
 import fun.huanghai.mall.ums.pojo.UmsPermission;
 import fun.huanghai.mall.ums.pojo.UmsPermissionExample;
@@ -83,13 +84,15 @@ public class UmsPermissionServiceImpl extends BaseServiceImpl<UmsPermission> imp
                     record.setPermissionId(id);
                     records.add(record);
                 });
-                return umsAdminPermissionRelationDaoExpand.insertAll(records);
+                row = umsAdminPermissionRelationDaoExpand.insertAll(records);
+                if(row>0) return SysVariable.SYS_SUCCESS;
+                return SysVariable.SYS_FAILURE;
             }
-            return 0;
+            return SysVariable.SYS_FAILURE;
         } catch (Exception e) {
             e.printStackTrace();
             LOGGER.error("UmsPermissionServiceImpl.addAdminPermissionRelation-->Exception,{}",e.getStackTrace());
-            return -1;
+            return SysVariable.SYS_ERROR;
         }
     }
 }

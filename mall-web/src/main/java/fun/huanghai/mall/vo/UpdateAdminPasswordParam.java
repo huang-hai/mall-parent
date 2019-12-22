@@ -7,18 +7,18 @@ import javax.validation.constraints.NotNull;
 public class UpdateAdminPasswordParam {
 
     @NotNull
-    @Length(min = 6,max = 18)
+    @Length(min = 3,max = 18)
     private String newPassword;// (string): 新密码 ,
 
     @NotNull
-    @Length(min = 6,max = 18)
+    @Length(min = 3,max = 18)
     private String oldPassword;// (string): 旧密码 ,
 
     @NotNull
     @Length(min = 3,max = 20)
     private String username;// (string): 用户名
 
-    public UpdateAdminPasswordParam(@NotNull @Length(min = 6, max = 18) String newPassword, @NotNull @Length(min = 6, max = 18) String oldPassword, @NotNull @Length(min = 3, max = 20) String username) {
+    public UpdateAdminPasswordParam(@NotNull @Length(min = 3, max = 18) String newPassword, @NotNull @Length(min = 3, max = 18) String oldPassword, @NotNull @Length(min = 3, max = 20) String username) {
         this.newPassword = newPassword;
         this.oldPassword = oldPassword;
         this.username = username;
