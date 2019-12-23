@@ -3,6 +3,7 @@ package fun.huanghai.mall.ums.service;
 import fun.huanghai.mall.service.BaseService;
 import fun.huanghai.mall.ums.pojo.UmsAdminPermissionRelation;
 import fun.huanghai.mall.ums.pojo.UmsPermission;
+import fun.huanghai.mall.ums.pojo.UmsPermissionExpand;
 
 import java.util.List;
 
@@ -24,4 +25,17 @@ public interface UmsPermissionService extends BaseService<UmsPermission> {
      * @return
      */
     public Integer addAdminPermissionRelation(Long adminId,List<Long> permissionIds);
+
+    /**
+     * 批量删除权限
+     * @param ids
+     * @return
+     */
+    Integer delAll(Long[] ids);
+
+    /**
+     * 查询树形权限列表
+     * @return
+     */
+    List<UmsPermissionExpand> queryTreeList();
 }

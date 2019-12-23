@@ -1,6 +1,7 @@
 package fun.huanghai.mall.ums.service;
 
 import fun.huanghai.mall.service.BaseService;
+import fun.huanghai.mall.ums.pojo.UmsPermission;
 import fun.huanghai.mall.ums.pojo.UmsRole;
 
 import java.util.List;
@@ -28,4 +29,20 @@ public interface UmsRoleService extends BaseService<UmsRole>{
      * @return
      */
     Integer delAll(Long[] ids);
+
+    /**
+     * 根据角色ID查找
+     * @param roleId
+     * @return
+     */
+    List<UmsPermission> queryByRoleId(Long roleId);
+
+    /**
+     * 添加(更新)角色权限
+     * @param roleId
+     * @param permissionIds
+     * @return
+     */
+    Integer addRolePermissionRelation(Long roleId,List<Long> permissionIds);
+
 }

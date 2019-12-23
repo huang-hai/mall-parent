@@ -1,6 +1,4 @@
-package fun.huanghai.mall.vo;
-
-import org.hibernate.validator.constraints.Length;
+package fun.huanghai.mall.ums.vo;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;

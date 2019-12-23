@@ -1,12 +1,8 @@
 package fun.huanghai.mall.service.impl;
 
-import fun.huanghai.mall.dao.UmsAdminRoleRelationDaoExpand;
-import fun.huanghai.mall.dao.UmsRoleDaoExpand;
-import fun.huanghai.mall.dao.UmsRoleMapper;
+import fun.huanghai.mall.dao.*;
 import fun.huanghai.mall.sys.SysVariable;
-import fun.huanghai.mall.ums.pojo.UmsAdminRoleRelation;
-import fun.huanghai.mall.ums.pojo.UmsRole;
-import fun.huanghai.mall.ums.pojo.UmsRoleExample;
+import fun.huanghai.mall.ums.pojo.*;
 import fun.huanghai.mall.ums.service.UmsRoleService;
 import org.apache.dubbo.config.annotation.Method;
 import org.apache.dubbo.config.annotation.Service;
@@ -39,12 +35,21 @@ public class UmsRoleServiceImpl extends BaseServiceImpl<UmsRole> implements UmsR
     private UmsAdminRoleRelationDaoExpand umsAdminRoleRelationDaoExpand;
 
     @Autowired
+    @Qualifier("umsPermissionDaoExpand")
+    private UmsPermissionDaoExpand umsPermissionDaoExpand;
+
+    @Autowired
+    @Qualifier("umsRolePermissionRelationDaoExpand")
+    private UmsRolePermissionRelationDaoExpand umsRolePermissionRelationDaoExpand;
+
+    @Autowired
     @Qualifier("umsRoleMapper")
     public void setUmsRoleMapper(UmsRoleMapper umsRoleMapper) {
         this.umsRoleMapper = umsRoleMapper;
         super.setaClass(UmsRoleMapper.class);
         super.setExampleClass(UmsRoleExample.class);
     }
+
 
     /**
      * 查询用户角色列表
@@ -87,9 +92,7 @@ public class UmsRoleServiceImpl extends BaseServiceImpl<UmsRole> implements UmsR
             }
             return SysVariable.SYS_FAILURE;
         } catch (Exception e) {
-            e.printStackTrace();
-            LOGGER.error("UmsRoleServiceImpl.addAdminRoleRelation-->Exception,{}",e.getStackTrace());
-            return SysVariable.SYS_ERROR;
+            return error(e,"addAdminRoleRelation");
         }
     }
 
@@ -100,9 +103,53 @@ public class UmsRoleServiceImpl extends BaseServiceImpl<UmsRole> implements UmsR
             if(row>0) return SysVariable.SYS_SUCCESS;
             return SysVariable.SYS_FAILURE;
         } catch (Exception e) {
-            e.printStackTrace();
-            LOGGER.error("UmsRoleServiceImpl.delAll-->Exception,{}",e.getStackTrace());
-            return SysVariable.SYS_ERROR;
+            return error(e,"delAll");
+        }
+    }
+
+    /**
+     * 根据角色ID查找
+     *
+     * @param roleId
+     * @return
+     */
+    @Override
+    public List<UmsPermission> queryByRoleId(Long roleId) {
+        return umsPermissionDaoExpand.queryByRole(roleId);
+    }
+
+    /**
+     * 添加(更新)角色权限
+     *
+     * @param roleId
+     * @param permissionIds
+     * @return
+     */
+    @Override
+    public Integer addRolePermissionRelation(Long roleId, List<Long> permissionIds) {
+        try {
+            //删除原有权限
+            int row = umsRolePermissionRelationDaoExpand.deleteBySelective("role_id", roleId);
+            LOGGER.info("UmsRoleServiceImpl.addAdminRoleRelation-->受影响行："+row);
+            if(permissionIds.size()>0){
+                Set<Long> ids = new HashSet<>();
+                //去重操作
+                ids.addAll(permissionIds);
+                List<UmsRolePermissionRelation> records = new ArrayList<>();
+                ids.forEach(id -> {
+                    UmsRolePermissionRelation record = new UmsRolePermissionRelation();
+                    record.setRoleId(roleId);
+                    record.setPermissionId(id);
+                    records.add(record);
+                });
+
+                row = umsRolePermissionRelationDaoExpand.insertAll(records);
+                if(row>0) return SysVariable.SYS_SUCCESS;
+                return SysVariable.SYS_FAILURE;
+            }
+            return SysVariable.SYS_FAILURE;
+        } catch (Exception e) {
+            return error(e,"addRolePermissionRelation");
         }
     }
 
@@ -120,11 +167,36 @@ public class UmsRoleServiceImpl extends BaseServiceImpl<UmsRole> implements UmsR
             if(row>0) return SysVariable.SYS_SUCCESS;
             return SysVariable.SYS_FAILURE;
         } catch (Exception e) {
-            e.printStackTrace();
-            LOGGER.error("UmsRoleServiceImpl.add-->Exception,{}",e.getStackTrace());
-            return SysVariable.SYS_ERROR;
+            return error(e,"add");
         }
     }
 
+    /**
+     * 根据条件查找
+     *
+     * @param obj
+     * @return
+     */
+    @Override
+    public List<UmsRole> queryByCondition(Object obj) {
+        UmsRoleExample example = new UmsRoleExample();
+        example.createCriteria().andStatusEqualTo(1);
+        return super.queryByCondition(example);
+    }
 
+    @Override
+    public Integer edit(UmsRole umsRole) {
+        try {
+            UmsRoleExample example = new UmsRoleExample();
+            example.createCriteria().andNameEqualTo(umsRole.getName())
+                    .andIdNotEqualTo(umsRole.getId());
+            List<UmsRole> umsRoles = super.queryByCondition(example);
+            if(umsRoles.size()>0) return SysVariable.ROLENAME_EXIST;
+            Integer row = super.edit(umsRole);
+            if(row>0) return SysVariable.SYS_SUCCESS;
+            return SysVariable.SYS_FAILURE;
+        } catch (Exception e) {
+            return error(e,"edit");
+        }
+    }
 }

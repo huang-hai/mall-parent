@@ -4,11 +4,10 @@ dubbo:
   registry:
     #公司环境zookeeper://192.168.1.145:2181
     #自己环境zookeeper://192.168.198.129:2181
-    address: zookeeper://192.168.198.129:2181
+    address: zookeeper://192.168.1.145:2181
   #不检查提供者是否存在
   consumer:
     check: false
-
 server:
   port: 8080
 
@@ -20,3 +19,7 @@ mall:
     tokenHead: Bearer
 logging:
   path: F:\mall\localhost\
+spring:
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8

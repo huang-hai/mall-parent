@@ -99,8 +99,7 @@ public class UmsAdminServiceImpl extends BaseServiceImpl<UmsAdmin> implements Um
                 } else return SysVariable.PASSWORD_ERROR;
             } else return SysVariable.USERNAME_ERROR;
         } catch (Exception e) {
-            e.printStackTrace();
-            return SysVariable.SYS_ERROR;
+            return super.error(e,"updatePassword");
         }
     }
 
@@ -124,9 +123,7 @@ public class UmsAdminServiceImpl extends BaseServiceImpl<UmsAdmin> implements Um
             if(row>0) return SysVariable.SYS_SUCCESS;
             return SysVariable.SYS_FAILURE;
         } catch (Exception e) {
-            e.printStackTrace();
-            LOGGER.error("UmsAdminServiceImpl.add-->Exception,{}",e.getStackTrace());
-            return SysVariable.SYS_ERROR;
+            return super.error(e,"add");
         }
     }
 

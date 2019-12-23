@@ -7,6 +7,7 @@ import fun.huanghai.mall.sys.SysVariable;
 import fun.huanghai.mall.ums.pojo.UmsAdminPermissionRelation;
 import fun.huanghai.mall.ums.pojo.UmsPermission;
 import fun.huanghai.mall.ums.pojo.UmsPermissionExample;
+import fun.huanghai.mall.ums.pojo.UmsPermissionExpand;
 import fun.huanghai.mall.ums.service.UmsPermissionService;
 import org.apache.dubbo.config.annotation.Method;
 import org.apache.dubbo.config.annotation.Service;
@@ -90,9 +91,81 @@ public class UmsPermissionServiceImpl extends BaseServiceImpl<UmsPermission> imp
             }
             return SysVariable.SYS_FAILURE;
         } catch (Exception e) {
-            e.printStackTrace();
-            LOGGER.error("UmsPermissionServiceImpl.addAdminPermissionRelation-->Exception,{}",e.getStackTrace());
-            return SysVariable.SYS_ERROR;
+            return error(e,"addAdminPermissionRelation");
         }
+    }
+
+    /**
+     * 批量删除权限
+     *
+     * @param ids
+     * @return
+     */
+    @Override
+    public Integer delAll(Long[] ids) {
+        try {
+            if(ids.length==0) return SysVariable.SYS_FAILURE;
+            int row = umsPermissionDaoExpand.delAll(ids);
+            if(row>0)return SysVariable.SYS_SUCCESS;
+            return SysVariable.SYS_FAILURE;
+        } catch (Exception e) {
+            return error(e,"delAll");
+        }
+    }
+
+    /**
+     * 查询树形权限列表
+     *
+     * @return
+     */
+    @Override
+    public List<UmsPermissionExpand> queryTreeList() {
+        return umsPermissionDaoExpand.queryTreeByPId(0l);
+    }
+
+    @Override
+    public Integer add(UmsPermission umsPermission) {
+        try {
+            UmsPermissionExample example = new UmsPermissionExample();
+            example.createCriteria().andNameEqualTo(umsPermission.getName());
+            List<UmsPermission> umsPermissions = super.queryByCondition(example);
+            if(umsPermissions.size()>0) return SysVariable.PERMISSIONNAME_EXIST;
+
+            Integer row = super.add(umsPermission);
+            if(row>0) return SysVariable.SYS_SUCCESS;
+            return SysVariable.SYS_FAILURE;
+        } catch (Exception e) {
+            return error(e,"add");
+        }
+    }
+
+    @Override
+    public Integer edit(UmsPermission umsPermission) {
+        try {
+            UmsPermissionExample example = new UmsPermissionExample();
+            example.createCriteria().andNameEqualTo(umsPermission.getName())
+            .andIdNotEqualTo(umsPermission.getId());
+            List<UmsPermission> umsPermissions = super.queryByCondition(example);
+            if(umsPermissions.size()>0) return SysVariable.PERMISSIONNAME_EXIST;
+
+            Integer row = super.edit(umsPermission);
+            if(row>0) return SysVariable.SYS_SUCCESS;
+            return SysVariable.SYS_FAILURE;
+        } catch (Exception e) {
+            return error(e,"edit");
+        }
+    }
+
+    /**
+     * 根据条件查找
+     *
+     * @param obj
+     * @return
+     */
+    @Override
+    public List<UmsPermission> queryByCondition(Object obj) {
+        UmsPermissionExample example = new UmsPermissionExample();
+        example.createCriteria().andStatusEqualTo(1);
+        return super.queryByCondition(example);
     }
 }

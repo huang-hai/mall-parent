@@ -21,4 +21,5 @@ public interface UmsRoleDaoExpand extends UmsRoleMapper{
      * @return
      */
     int delAll(@Param("ids") Long[] ids);
+
 }

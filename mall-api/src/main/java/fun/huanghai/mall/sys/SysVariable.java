@@ -39,4 +39,15 @@ public class SysVariable {
      * 角色名已存在
      */
     public static final Integer ROLENAME_EXIST = 2;
+
+    /**
+     * 权限名已存在
+     */
+    public static final Integer PERMISSIONNAME_EXIST = 2;
+
+    /**
+     * 品牌名称已存在
+     */
+    public static final Integer BRANDNAME_EXIST = 2;
+
 }

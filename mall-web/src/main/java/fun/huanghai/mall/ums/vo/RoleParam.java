@@ -1,4 +1,4 @@
-package fun.huanghai.mall.vo;
+package fun.huanghai.mall.ums.vo;
 
 import org.apache.dubbo.common.utils.StringUtils;
 import org.hibernate.validator.constraints.Length;
@@ -16,14 +16,14 @@ public class RoleParam implements Serializable{
     private String createTime;// (string, optional): 创建时间 ,
     @Length(max = 500)
     private String description;// (string, optional): 描述 ,
-    private Integer id;// (integer, optional),
+    private Long id;// (integer, optional),
     @NotNull
     @Length(min = 3,max = 50)
     private String name;// (string, optional): 名称 ,
     private Integer sort;// (integer, optional),
     private Integer status;// ;//(integer, optional): 启用状态：0->禁用；1->启用
 
-    public RoleParam(Integer adminCount, String createTime, @Length(max = 500) String description, Integer id, @NotNull @Length(min = 3, max = 50) String name, Integer sort, Integer status) {
+    public RoleParam(Integer adminCount, String createTime, @Length(max = 500) String description, Long id, @NotNull @Length(min = 3, max = 50) String name, Integer sort, Integer status) {
         this.adminCount = adminCount;
         this.createTime = createTime;
         this.description = description;
@@ -71,11 +71,11 @@ public class RoleParam implements Serializable{
         this.description = description;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

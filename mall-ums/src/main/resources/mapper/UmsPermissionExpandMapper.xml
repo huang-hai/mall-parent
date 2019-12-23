@@ -4,21 +4,23 @@
   <resultMap id="expandMap" type="fun.huanghai.mall.ums.pojo.UmsPermission" extends="fun.huanghai.mall.dao.UmsPermissionMapper.BaseResultMap">
     
   </resultMap>
-  <!--<resultMap id="BaseResultMap" type="fun.huanghai.mall.ums.pojo.UmsPermission" >
-    <id column="id" property="id" jdbcType="BIGINT" />
-    <result column="pid" property="pid" jdbcType="BIGINT" />
-    <result column="name" property="name" jdbcType="VARCHAR" />
-    <result column="value" property="value" jdbcType="VARCHAR" />
-    <result column="icon" property="icon" jdbcType="VARCHAR" />
-    <result column="type" property="type" jdbcType="INTEGER" />
-    <result column="uri" property="uri" jdbcType="VARCHAR" />
-    <result column="status" property="status" jdbcType="INTEGER" />
-    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
-    <result column="sort" property="sort" jdbcType="INTEGER" />
-  </resultMap>-->
+
+  <!-- 包含子权限列表 -->
+  <resultMap id="treeMap" type="fun.huanghai.mall.ums.pojo.UmsPermissionExpand" extends="fun.huanghai.mall.dao.UmsPermissionMapper.BaseResultMap">
+    <collection property="children" select="queryTreeByPId" column="id"></collection>
+  </resultMap>
+
   <sql id="expandList" >
     ${alias}.id, ${alias}.pid, ${alias}.name, ${alias}.value, ${alias}.icon, ${alias}.type, ${alias}.uri, ${alias}.status, ${alias}.create_time, ${alias}.sort
   </sql>
+
+  <select id="queryTreeByPId" resultMap="treeMap">
+    select <include refid="expandList"><property name="alias" value="up"/></include>
+    from ums_permission up
+    where pid = #{pid}
+    and status = 1
+  </select>
+  
 
   <!-- 根据用户查找权限 -->
   <select id="queryByAdmin" resultMap="expandMap">
@@ -46,6 +48,26 @@
     and urpr.permission_id = up.id
     where ua.id = #{adminId}
     and up.status = 1
+    and ur.status = 1
   </select>
 
+  <select id="queryByRole" resultMap="expandMap">
+    select <include refid="expandList"><property name="alias" value="up"></property></include>
+    from ums_role  ur
+    inner join ums_role_permission_relation urpr
+    inner join ums_permission up
+    on ur.id = urpr.permission_id
+    and urpr.permission_id = up.id
+    where ur.id = #{roleId}
+    and up.status = 1
+  </select>
+
+  <update id="delAll">
+    update ums_permission
+    set status = 0
+    where id in
+    <foreach collection="ids" open="(" close=")" separator="," item="id">
+      #{id}
+    </foreach>
+  </update>
 </mapper>

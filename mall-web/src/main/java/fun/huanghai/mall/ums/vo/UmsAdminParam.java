@@ -1,4 +1,4 @@
-package fun.huanghai.mall.vo;
+package fun.huanghai.mall.ums.vo;
 
 import org.hibernate.validator.constraints.Length;
 
