@@ -4,6 +4,35 @@ dubbo:
   registry:
     #公司环境zookeeper://192.168.1.145:2181
     #自己环境zookeeper://192.168.198.129:2181
+    address: zookeeper://192.168.198.129:2181
+  #不检查提供者是否存在
+  consumer:
+    check: false
+server:
+  port: 8080
+
+mall:
+  jwt:
+    tokenHeader: Authorization
+    secret: mall_2019
+    expiration: 604800
+    tokenHead: Bearer
+logging:
+  path: F:\mall\localhost\mall-web.log
+spring:
+  profiles: home
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+
+---
+
+dubbo:
+  application:
+    name: mall-web
+  registry:
+    #公司环境zookeeper://192.168.1.145:2181
+    #自己环境zookeeper://192.168.198.129:2181
     address: zookeeper://192.168.1.145:2181
   #不检查提供者是否存在
   consumer:
@@ -18,8 +47,9 @@ mall:
     expiration: 604800
     tokenHead: Bearer
 logging:
-  path: F:\mall\localhost\
+  path: F:\mall\localhost\mall-web.log
 spring:
+  profiles: comp
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
     time-zone: GMT+8
