@@ -71,25 +71,24 @@
     where id = #{id,jdbcType=BIGINT}
   </delete>
   <insert id="insert" parameterType="fun.huanghai.mall.ums.pojo.UmsMemberReceiveAddress" >
-    <selectKey resultType="java.lang.Long" keyProperty="id" order="BEFORE" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into ums_member_receive_address (id, member_id, name, 
-      phone_number, default_status, post_code, 
-      province, city, region, 
-      detail_address)
-    values (#{id,jdbcType=BIGINT}, #{memberId,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, 
-      #{phoneNumber,jdbcType=VARCHAR}, #{defaultStatus,jdbcType=INTEGER}, #{postCode,jdbcType=VARCHAR}, 
-      #{province,jdbcType=VARCHAR}, #{city,jdbcType=VARCHAR}, #{region,jdbcType=VARCHAR}, 
-      #{detailAddress,jdbcType=VARCHAR})
+    insert into ums_member_receive_address (member_id, name, phone_number, 
+      default_status, post_code, province, 
+      city, region, detail_address
+      )
+    values (#{memberId,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{phoneNumber,jdbcType=VARCHAR}, 
+      #{defaultStatus,jdbcType=INTEGER}, #{postCode,jdbcType=VARCHAR}, #{province,jdbcType=VARCHAR}, 
+      #{city,jdbcType=VARCHAR}, #{region,jdbcType=VARCHAR}, #{detailAddress,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="fun.huanghai.mall.ums.pojo.UmsMemberReceiveAddress" >
-    <selectKey resultType="java.lang.Long" keyProperty="id" order="BEFORE" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into ums_member_receive_address
     <trim prefix="(" suffix=")" suffixOverrides="," >
-      id,
       <if test="memberId != null" >
         member_id,
       </if>
@@ -119,7 +118,6 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
-      #{id,jdbcType=BIGINT},
       <if test="memberId != null" >
         #{memberId,jdbcType=BIGINT},
       </if>

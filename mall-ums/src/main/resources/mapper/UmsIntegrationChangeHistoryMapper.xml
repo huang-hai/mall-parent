@@ -69,23 +69,22 @@
     where id = #{id,jdbcType=BIGINT}
   </delete>
   <insert id="insert" parameterType="fun.huanghai.mall.ums.pojo.UmsIntegrationChangeHistory" >
-    <selectKey resultType="java.lang.Long" keyProperty="id" order="BEFORE" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into ums_integration_change_history (id, member_id, create_time, 
-      change_type, change_count, operate_man, 
-      operate_note, source_type)
-    values (#{id,jdbcType=BIGINT}, #{memberId,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{changeType,jdbcType=INTEGER}, #{changeCount,jdbcType=INTEGER}, #{operateMan,jdbcType=VARCHAR}, 
-      #{operateNote,jdbcType=VARCHAR}, #{sourceType,jdbcType=INTEGER})
+    insert into ums_integration_change_history (member_id, create_time, change_type, 
+      change_count, operate_man, operate_note, 
+      source_type)
+    values (#{memberId,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, #{changeType,jdbcType=INTEGER}, 
+      #{changeCount,jdbcType=INTEGER}, #{operateMan,jdbcType=VARCHAR}, #{operateNote,jdbcType=VARCHAR}, 
+      #{sourceType,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="fun.huanghai.mall.ums.pojo.UmsIntegrationChangeHistory" >
-    <selectKey resultType="java.lang.Long" keyProperty="id" order="BEFORE" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into ums_integration_change_history
     <trim prefix="(" suffix=")" suffixOverrides="," >
-      id,
       <if test="memberId != null" >
         member_id,
       </if>
@@ -109,7 +108,6 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
-      #{id,jdbcType=BIGINT},
       <if test="memberId != null" >
         #{memberId,jdbcType=BIGINT},
       </if>

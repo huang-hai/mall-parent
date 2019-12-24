@@ -63,21 +63,18 @@
     where id = #{id,jdbcType=BIGINT}
   </delete>
   <insert id="insert" parameterType="fun.huanghai.mall.ums.pojo.UmsMemberProductCategoryRelation" >
-    <selectKey resultType="java.lang.Long" keyProperty="id" order="BEFORE" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into ums_member_product_category_relation (id, member_id, product_category_id
-      )
-    values (#{id,jdbcType=BIGINT}, #{memberId,jdbcType=BIGINT}, #{productCategoryId,jdbcType=BIGINT}
-      )
+    insert into ums_member_product_category_relation (member_id, product_category_id)
+    values (#{memberId,jdbcType=BIGINT}, #{productCategoryId,jdbcType=BIGINT})
   </insert>
   <insert id="insertSelective" parameterType="fun.huanghai.mall.ums.pojo.UmsMemberProductCategoryRelation" >
-    <selectKey resultType="java.lang.Long" keyProperty="id" order="BEFORE" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into ums_member_product_category_relation
     <trim prefix="(" suffix=")" suffixOverrides="," >
-      id,
       <if test="memberId != null" >
         member_id,
       </if>
@@ -86,7 +83,6 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
-      #{id,jdbcType=BIGINT},
       <if test="memberId != null" >
         #{memberId,jdbcType=BIGINT},
       </if>

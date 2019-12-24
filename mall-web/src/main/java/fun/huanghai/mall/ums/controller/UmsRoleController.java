@@ -56,7 +56,7 @@ public class UmsRoleController {
 
         Integer res = umsRoleService.add(umsRole);
         if(res == SysVariable.SYS_SUCCESS) return new CommonResult().success(res);
-        else if(res == SysVariable.SYS_ERROR) throw new UmsWebException("系统错误！");
+        else if(res == SysVariable.SYS_ERROR) throw new UmsWebException(SysVariable.SYS_ERROR_MES);
         return new CommonResult().failed();
     }
 
@@ -82,7 +82,7 @@ public class UmsRoleController {
         }
         Integer res = umsRoleService.edit(umsRole);
         if(res == SysVariable.SYS_SUCCESS) return new CommonResult().success(res);
-        else if(res == SysVariable.SYS_ERROR) throw new UmsWebException("系统错误！");
+        else if(res == SysVariable.SYS_ERROR) throw new UmsWebException(SysVariable.SYS_ERROR_MES);
         return new CommonResult().failed();
     }
 
@@ -96,7 +96,7 @@ public class UmsRoleController {
         if(ids.length==0) return new CommonResult().validateFailed("参数不能为空！");
         Integer res = umsRoleService.delAll(ids);
         if(res==SysVariable.SYS_SUCCESS) return new CommonResult().success(res);
-        else if(res==SysVariable.SYS_ERROR) throw new UmsWebException("系统错误！");
+        else if(res==SysVariable.SYS_ERROR) throw new UmsWebException(SysVariable.SYS_ERROR_MES);
         return new CommonResult().failed();
     }
 
@@ -133,7 +133,7 @@ public class UmsRoleController {
         Integer res = umsRoleService.addRolePermissionRelation(param.getRoleId(),
                 Arrays.asList(param.getPermissionIds()));
         if(res==SysVariable.SYS_SUCCESS) return new CommonResult().success(res);
-        else if(res==SysVariable.SYS_ERROR) throw new UmsWebException("系统错误！");
+        else if(res==SysVariable.SYS_ERROR) throw new UmsWebException(SysVariable.SYS_ERROR_MES);
         return new CommonResult().failed();
     }
 }

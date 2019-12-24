@@ -73,27 +73,26 @@
     where id = #{id,jdbcType=BIGINT}
   </delete>
   <insert id="insert" parameterType="fun.huanghai.mall.pms.pojo.PmsProductAttribute" >
-    <selectKey resultType="java.lang.Long" keyProperty="id" order="BEFORE" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into pms_product_attribute (id, product_attribute_category_id, name, 
+    insert into pms_product_attribute (product_attribute_category_id, name, 
       select_type, input_type, input_list, 
       sort, filter_type, search_type, 
       related_status, hand_add_status, type
       )
-    values (#{id,jdbcType=BIGINT}, #{productAttributeCategoryId,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, 
+    values (#{productAttributeCategoryId,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, 
       #{selectType,jdbcType=INTEGER}, #{inputType,jdbcType=INTEGER}, #{inputList,jdbcType=VARCHAR}, 
       #{sort,jdbcType=INTEGER}, #{filterType,jdbcType=INTEGER}, #{searchType,jdbcType=INTEGER}, 
       #{relatedStatus,jdbcType=INTEGER}, #{handAddStatus,jdbcType=INTEGER}, #{type,jdbcType=INTEGER}
       )
   </insert>
   <insert id="insertSelective" parameterType="fun.huanghai.mall.pms.pojo.PmsProductAttribute" >
-    <selectKey resultType="java.lang.Long" keyProperty="id" order="BEFORE" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into pms_product_attribute
     <trim prefix="(" suffix=")" suffixOverrides="," >
-      id,
       <if test="productAttributeCategoryId != null" >
         product_attribute_category_id,
       </if>
@@ -129,7 +128,6 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
-      #{id,jdbcType=BIGINT},
       <if test="productAttributeCategoryId != null" >
         #{productAttributeCategoryId,jdbcType=BIGINT},
       </if>

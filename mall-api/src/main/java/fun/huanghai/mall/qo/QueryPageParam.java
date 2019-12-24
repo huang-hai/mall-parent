@@ -9,11 +9,11 @@ import java.io.Serializable;
  */
 public class QueryPageParam implements Serializable{
 
-    //当前页
-    private Integer pageNum;
+    //当前页-默认1
+    private Integer pageNum = 1;
 
-    //页大小
-    private Integer pageSize;
+    //页大小-默认10
+    private Integer pageSize = 10;
 
     //查询参数
     private Object obj;
@@ -49,5 +49,14 @@ public class QueryPageParam implements Serializable{
 
     public void setPageSize(Integer pageSize) {
         this.pageSize = pageSize;
+    }
+
+    @Override
+    public String toString() {
+        return "QueryPageParam{" +
+                "pageNum=" + pageNum +
+                ", pageSize=" + pageSize +
+                ", obj=" + obj +
+                '}';
     }
 }

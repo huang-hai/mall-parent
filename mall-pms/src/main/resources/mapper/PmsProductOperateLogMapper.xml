@@ -73,27 +73,24 @@
     where id = #{id,jdbcType=BIGINT}
   </delete>
   <insert id="insert" parameterType="fun.huanghai.mall.pms.pojo.PmsProductOperateLog" >
-    <selectKey resultType="java.lang.Long" keyProperty="id" order="BEFORE" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into pms_product_operate_log (id, product_id, price_old, 
-      price_new, sale_price_old, sale_price_new, 
-      gift_point_old, gift_point_new, use_point_limit_old, 
-      use_point_limit_new, operate_man, create_time
-      )
-    values (#{id,jdbcType=BIGINT}, #{productId,jdbcType=BIGINT}, #{priceOld,jdbcType=DECIMAL}, 
-      #{priceNew,jdbcType=DECIMAL}, #{salePriceOld,jdbcType=DECIMAL}, #{salePriceNew,jdbcType=DECIMAL}, 
-      #{giftPointOld,jdbcType=INTEGER}, #{giftPointNew,jdbcType=INTEGER}, #{usePointLimitOld,jdbcType=INTEGER}, 
-      #{usePointLimitNew,jdbcType=INTEGER}, #{operateMan,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}
-      )
+    insert into pms_product_operate_log (product_id, price_old, price_new, 
+      sale_price_old, sale_price_new, gift_point_old, 
+      gift_point_new, use_point_limit_old, use_point_limit_new, 
+      operate_man, create_time)
+    values (#{productId,jdbcType=BIGINT}, #{priceOld,jdbcType=DECIMAL}, #{priceNew,jdbcType=DECIMAL}, 
+      #{salePriceOld,jdbcType=DECIMAL}, #{salePriceNew,jdbcType=DECIMAL}, #{giftPointOld,jdbcType=INTEGER}, 
+      #{giftPointNew,jdbcType=INTEGER}, #{usePointLimitOld,jdbcType=INTEGER}, #{usePointLimitNew,jdbcType=INTEGER}, 
+      #{operateMan,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="fun.huanghai.mall.pms.pojo.PmsProductOperateLog" >
-    <selectKey resultType="java.lang.Long" keyProperty="id" order="BEFORE" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into pms_product_operate_log
     <trim prefix="(" suffix=")" suffixOverrides="," >
-      id,
       <if test="productId != null" >
         product_id,
       </if>
@@ -129,7 +126,6 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
-      #{id,jdbcType=BIGINT},
       <if test="productId != null" >
         #{productId,jdbcType=BIGINT},
       </if>

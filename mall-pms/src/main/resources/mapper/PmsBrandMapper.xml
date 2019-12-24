@@ -95,25 +95,24 @@
     where id = #{id,jdbcType=BIGINT}
   </delete>
   <insert id="insert" parameterType="fun.huanghai.mall.pms.pojo.PmsBrand" >
-    <selectKey resultType="java.lang.Long" keyProperty="id" order="BEFORE" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into pms_brand (id, name, first_letter, 
-      sort, factory_status, show_status, 
-      product_count, product_comment_count, logo, 
-      big_pic, brand_story)
-    values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{firstLetter,jdbcType=VARCHAR}, 
-      #{sort,jdbcType=INTEGER}, #{factoryStatus,jdbcType=INTEGER}, #{showStatus,jdbcType=INTEGER}, 
-      #{productCount,jdbcType=INTEGER}, #{productCommentCount,jdbcType=INTEGER}, #{logo,jdbcType=VARCHAR}, 
-      #{bigPic,jdbcType=VARCHAR}, #{brandStory,jdbcType=LONGVARCHAR})
+    insert into pms_brand (name, first_letter, sort, 
+      factory_status, show_status, product_count, 
+      product_comment_count, logo, big_pic, 
+      brand_story)
+    values (#{name,jdbcType=VARCHAR}, #{firstLetter,jdbcType=VARCHAR}, #{sort,jdbcType=INTEGER}, 
+      #{factoryStatus,jdbcType=INTEGER}, #{showStatus,jdbcType=INTEGER}, #{productCount,jdbcType=INTEGER}, 
+      #{productCommentCount,jdbcType=INTEGER}, #{logo,jdbcType=VARCHAR}, #{bigPic,jdbcType=VARCHAR}, 
+      #{brandStory,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="fun.huanghai.mall.pms.pojo.PmsBrand" >
-    <selectKey resultType="java.lang.Long" keyProperty="id" order="BEFORE" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into pms_brand
     <trim prefix="(" suffix=")" suffixOverrides="," >
-      id,
       <if test="name != null" >
         name,
       </if>
@@ -146,7 +145,6 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
-      #{id,jdbcType=BIGINT},
       <if test="name != null" >
         #{name,jdbcType=VARCHAR},
       </if>

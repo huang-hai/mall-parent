@@ -68,23 +68,22 @@
     where id = #{id,jdbcType=BIGINT}
   </delete>
   <insert id="insert" parameterType="fun.huanghai.mall.pms.pojo.PmsFeightTemplate" >
-    <selectKey resultType="java.lang.Long" keyProperty="id" order="BEFORE" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into pms_feight_template (id, name, charge_type, 
-      first_weight, first_fee, continue_weight, 
-      continme_fee, dest)
-    values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{chargeType,jdbcType=INTEGER}, 
-      #{firstWeight,jdbcType=DECIMAL}, #{firstFee,jdbcType=DECIMAL}, #{continueWeight,jdbcType=DECIMAL}, 
-      #{continmeFee,jdbcType=DECIMAL}, #{dest,jdbcType=VARCHAR})
+    insert into pms_feight_template (name, charge_type, first_weight, 
+      first_fee, continue_weight, continme_fee, 
+      dest)
+    values (#{name,jdbcType=VARCHAR}, #{chargeType,jdbcType=INTEGER}, #{firstWeight,jdbcType=DECIMAL}, 
+      #{firstFee,jdbcType=DECIMAL}, #{continueWeight,jdbcType=DECIMAL}, #{continmeFee,jdbcType=DECIMAL}, 
+      #{dest,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="fun.huanghai.mall.pms.pojo.PmsFeightTemplate" >
-    <selectKey resultType="java.lang.Long" keyProperty="id" order="BEFORE" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into pms_feight_template
     <trim prefix="(" suffix=")" suffixOverrides="," >
-      id,
       <if test="name != null" >
         name,
       </if>
@@ -108,7 +107,6 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
-      #{id,jdbcType=BIGINT},
       <if test="name != null" >
         #{name,jdbcType=VARCHAR},
       </if>

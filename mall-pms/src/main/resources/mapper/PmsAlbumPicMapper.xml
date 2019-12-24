@@ -63,21 +63,18 @@
     where id = #{id,jdbcType=BIGINT}
   </delete>
   <insert id="insert" parameterType="fun.huanghai.mall.pms.pojo.PmsAlbumPic" >
-    <selectKey resultType="java.lang.Long" keyProperty="id" order="BEFORE" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into pms_album_pic (id, album_id, pic
-      )
-    values (#{id,jdbcType=BIGINT}, #{albumId,jdbcType=BIGINT}, #{pic,jdbcType=VARCHAR}
-      )
+    insert into pms_album_pic (album_id, pic)
+    values (#{albumId,jdbcType=BIGINT}, #{pic,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="fun.huanghai.mall.pms.pojo.PmsAlbumPic" >
-    <selectKey resultType="java.lang.Long" keyProperty="id" order="BEFORE" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into pms_album_pic
     <trim prefix="(" suffix=")" suffixOverrides="," >
-      id,
       <if test="albumId != null" >
         album_id,
       </if>
@@ -86,7 +83,6 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
-      #{id,jdbcType=BIGINT},
       <if test="albumId != null" >
         #{albumId,jdbcType=BIGINT},
       </if>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="fun.huanghai.mall.dao.PmsBrandDaoExpand" >
+  <resultMap id="expandMap" type="fun.huanghai.mall.pms.pojo.PmsBrand" extends="fun.huanghai.mall.dao.PmsBrandMapper.BaseResultMap">
+  </resultMap>
+
+  <resultMap id="expandMapWithBLOBs" type="fun.huanghai.mall.pms.pojo.PmsBrand" extends="expandMap" >
+    <result column="brand_story" property="brandStory" jdbcType="LONGVARCHAR" />
+  </resultMap>
+
+  <sql id="expandList" >
+    ${alias}.id, ${alias}.name, ${alias}.first_letter, ${alias}.sort, ${alias}.factory_status, ${alias}.show_status,
+    ${alias}.product_count, ${alias}.product_comment_count,
+    ${alias}.logo, ${alias}.big_pic
+  </sql>
+  <sql id="expandBlobList" >
+    ${alias}.brand_story
+  </sql>
+
+  <delete id="delAll">
+    delete from pms_brand
+    where id in
+    <foreach collection="ids" item="id" separator="," open="(" close=")">
+      #{id}
+    </foreach>
+  </delete>
+
+  <update id="updateAllStatus">
+    update pms_brand
+    set ${name} = #{val}
+    where id in
+    <foreach collection="ids" item="id" separator="," open="(" close=")">
+      #{id}
+    </foreach>
+  </update>
+</mapper>

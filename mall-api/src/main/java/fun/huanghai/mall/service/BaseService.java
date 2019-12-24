@@ -47,6 +47,6 @@ public interface BaseService<T> {
      * @param id
      * @return
      */
-    public Integer del(Integer id);
+    public Integer del(Long id);
 
 }

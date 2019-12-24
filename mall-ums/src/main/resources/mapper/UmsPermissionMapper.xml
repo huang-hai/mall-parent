@@ -70,25 +70,22 @@
     where id = #{id,jdbcType=BIGINT}
   </delete>
   <insert id="insert" parameterType="fun.huanghai.mall.ums.pojo.UmsPermission" >
-    <selectKey resultType="java.lang.Long" keyProperty="id" order="BEFORE" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into ums_permission (id, pid, name, 
-      value, icon, type, 
-      uri, status, create_time, 
-      sort)
-    values (#{id,jdbcType=BIGINT}, #{pid,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, 
-      #{value,jdbcType=VARCHAR}, #{icon,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, 
-      #{uri,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{sort,jdbcType=INTEGER})
+    insert into ums_permission (pid, name, value, 
+      icon, type, uri, status, 
+      create_time, sort)
+    values (#{pid,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{value,jdbcType=VARCHAR}, 
+      #{icon,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, #{uri,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{sort,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="fun.huanghai.mall.ums.pojo.UmsPermission" >
-    <selectKey resultType="java.lang.Long" keyProperty="id" order="BEFORE" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into ums_permission
     <trim prefix="(" suffix=")" suffixOverrides="," >
-      id,
       <if test="pid != null" >
         pid,
       </if>
@@ -118,7 +115,6 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
-      #{id,jdbcType=BIGINT},
       <if test="pid != null" >
         #{pid,jdbcType=BIGINT},
       </if>

@@ -63,21 +63,18 @@
     where id = #{id,jdbcType=BIGINT}
   </delete>
   <insert id="insert" parameterType="fun.huanghai.mall.ums.pojo.UmsRolePermissionRelation" >
-    <selectKey resultType="java.lang.Long" keyProperty="id" order="BEFORE" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into ums_role_permission_relation (id, role_id, permission_id
-      )
-    values (#{id,jdbcType=BIGINT}, #{roleId,jdbcType=BIGINT}, #{permissionId,jdbcType=BIGINT}
-      )
+    insert into ums_role_permission_relation (role_id, permission_id)
+    values (#{roleId,jdbcType=BIGINT}, #{permissionId,jdbcType=BIGINT})
   </insert>
   <insert id="insertSelective" parameterType="fun.huanghai.mall.ums.pojo.UmsRolePermissionRelation" >
-    <selectKey resultType="java.lang.Long" keyProperty="id" order="BEFORE" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into ums_role_permission_relation
     <trim prefix="(" suffix=")" suffixOverrides="," >
-      id,
       <if test="roleId != null" >
         role_id,
       </if>
@@ -86,7 +83,6 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
-      #{id,jdbcType=BIGINT},
       <if test="roleId != null" >
         #{roleId,jdbcType=BIGINT},
       </if>

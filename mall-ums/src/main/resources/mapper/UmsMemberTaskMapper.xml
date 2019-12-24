@@ -65,21 +65,20 @@
     where id = #{id,jdbcType=BIGINT}
   </delete>
   <insert id="insert" parameterType="fun.huanghai.mall.ums.pojo.UmsMemberTask" >
-    <selectKey resultType="java.lang.Long" keyProperty="id" order="BEFORE" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into ums_member_task (id, name, growth, 
-      intergration, type)
-    values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{growth,jdbcType=INTEGER}, 
-      #{intergration,jdbcType=INTEGER}, #{type,jdbcType=INTEGER})
+    insert into ums_member_task (name, growth, intergration, 
+      type)
+    values (#{name,jdbcType=VARCHAR}, #{growth,jdbcType=INTEGER}, #{intergration,jdbcType=INTEGER}, 
+      #{type,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="fun.huanghai.mall.ums.pojo.UmsMemberTask" >
-    <selectKey resultType="java.lang.Long" keyProperty="id" order="BEFORE" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into ums_member_task
     <trim prefix="(" suffix=")" suffixOverrides="," >
-      id,
       <if test="name != null" >
         name,
       </if>
@@ -94,7 +93,6 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
-      #{id,jdbcType=BIGINT},
       <if test="name != null" >
         #{name,jdbcType=VARCHAR},
       </if>

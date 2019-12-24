@@ -116,22 +116,19 @@ public class UmsAdminController {
         admin.setId(id);
         Integer res = umsAdminService.edit(admin);
         if(res == SysVariable.SYS_SUCCESS) return new CommonResult().success(res);
-        else if(res==SysVariable.SYS_ERROR) throw new UmsWebException("系统错误！");
+        else if(res==SysVariable.SYS_ERROR) throw new UmsWebException(SysVariable.SYS_ERROR_MES);
         else return new CommonResult().failed();
     }
 
     /**
      * 根据用户名或昵称查找分页数据
-     * @param name
-     * @param pageSize
-     * @param pageNum
+     * @param queryPageExpandParam
      * @return
      */
     @GetMapping("/list")
-    public CommonResult list(@RequestParam(name = "name",required = false) String name,
-                             @RequestParam(name = "pageSize",defaultValue = "10") Integer pageSize,
-                             @RequestParam(name = "pageNum",defaultValue = "1") Integer pageNum) throws Exception {
-        PageInfoVo pageInfoVo = umsAdminService.queryPages(new QueryPageParam(pageNum, pageSize, name));
+    public CommonResult list(QueryPageExpandParam queryPageExpandParam) throws Exception {
+        QueryPageParam queryPageParam = new QueryPageParam(queryPageExpandParam.getPageNum(), queryPageExpandParam.getPageSize(), queryPageExpandParam.getName());
+        PageInfoVo pageInfoVo = umsAdminService.queryPages(queryPageParam);
 
         return new CommonResult().success(pageInfoVo);
     }
@@ -162,8 +159,8 @@ public class UmsAdminController {
         System.out.println(admin);
         Integer res = umsAdminService.add(admin);
         if(res==SysVariable.SYS_SUCCESS) return new CommonResult().success(adminParam);
-        else if(res==SysVariable.USERNAME_EXIST) return new CommonResult().validateFailed("用户名已存在！");
-        else if(res==SysVariable.SYS_ERROR) throw new UmsWebException("系统错误！");
+        else if(res==SysVariable.USERNAME_EXIST) return new CommonResult().validateFailed(SysVariable.USERNAME_EXIST_MES);
+        else if(res==SysVariable.SYS_ERROR) throw new UmsWebException(SysVariable.SYS_ERROR_MES);
         else return new CommonResult().failed();
     }
 
@@ -196,7 +193,7 @@ public class UmsAdminController {
         Integer res = umsPermissionService.addAdminPermissionRelation(param.getAdminId()
                 , Arrays.asList(param.getPermissionIds()));
         if(res == SysVariable.SYS_SUCCESS) return new CommonResult().success(res);
-        else if(res == SysVariable.SYS_ERROR) throw new UmsWebException("系统错误");
+        else if(res == SysVariable.SYS_ERROR) throw new UmsWebException(SysVariable.SYS_ERROR_MES);
         else return new CommonResult().failed();
     }
 
@@ -222,7 +219,7 @@ public class UmsAdminController {
         Integer res = umsRoleService.addAdminRoleRelation(param.getAdminId()
                 , Arrays.asList(param.getRoleIds()));
         if(res == SysVariable.SYS_SUCCESS) return new CommonResult().success(res);
-        else if(res == SysVariable.SYS_ERROR) throw new UmsWebException("系统错误");
+        else if(res == SysVariable.SYS_ERROR) throw new UmsWebException(SysVariable.SYS_ERROR_MES);
         else return new CommonResult().failed();
     }
 
@@ -257,7 +254,7 @@ public class UmsAdminController {
         if(res == SysVariable.SYS_SUCCESS) return new CommonResult().success(res);
         else if(res == SysVariable.USERNAME_ERROR) return new CommonResult().validateFailed("用户名错误");
         else if(res == SysVariable.PASSWORD_ERROR) return new CommonResult().validateFailed("旧密码错误");
-        else if(res == SysVariable.SYS_ERROR) throw new UmsWebException("系统错误");
+        else if(res == SysVariable.SYS_ERROR) throw new UmsWebException(SysVariable.SYS_ERROR_MES);
         else return new CommonResult().failed();
     }
 }

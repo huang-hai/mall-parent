@@ -135,6 +135,7 @@ public class UmsAdminServiceImpl extends BaseServiceImpl<UmsAdmin> implements Um
             example.createCriteria().andUsernameLike("%"+name+"%");
             example.or(example.createCriteria().andNickNameLike("%"+name+"%"));
         }
+        queryPageParam.setObj(example);
         return super.queryPages(queryPageParam);
     }
 }

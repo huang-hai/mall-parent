@@ -64,21 +64,20 @@
     where id = #{id,jdbcType=BIGINT}
   </delete>
   <insert id="insert" parameterType="fun.huanghai.mall.pms.pojo.PmsProductAttributeValue" >
-    <selectKey resultType="java.lang.Long" keyProperty="id" order="BEFORE" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into pms_product_attribute_value (id, product_id, product_attribute_id, 
-      value)
-    values (#{id,jdbcType=BIGINT}, #{productId,jdbcType=BIGINT}, #{productAttributeId,jdbcType=BIGINT}, 
-      #{value,jdbcType=VARCHAR})
+    insert into pms_product_attribute_value (product_id, product_attribute_id, value
+      )
+    values (#{productId,jdbcType=BIGINT}, #{productAttributeId,jdbcType=BIGINT}, #{value,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="fun.huanghai.mall.pms.pojo.PmsProductAttributeValue" >
-    <selectKey resultType="java.lang.Long" keyProperty="id" order="BEFORE" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into pms_product_attribute_value
     <trim prefix="(" suffix=")" suffixOverrides="," >
-      id,
       <if test="productId != null" >
         product_id,
       </if>
@@ -90,7 +89,6 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
-      #{id,jdbcType=BIGINT},
       <if test="productId != null" >
         #{productId,jdbcType=BIGINT},
       </if>

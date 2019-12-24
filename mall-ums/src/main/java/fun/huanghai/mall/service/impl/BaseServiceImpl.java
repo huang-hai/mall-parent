@@ -148,7 +148,7 @@ public class BaseServiceImpl<T> implements BaseService<T>{
     }
 
     @Override
-    public Integer del(Integer id) {
+    public Integer del(Long id) {
         try {
             //反射获取方法
             Method method = aClass.getDeclaredMethod("deleteByPrimaryKey",Long.class);

@@ -68,23 +68,22 @@
     where id = #{id,jdbcType=BIGINT}
   </delete>
   <insert id="insert" parameterType="fun.huanghai.mall.ums.pojo.UmsMemberRuleSetting" >
-    <selectKey resultType="java.lang.Long" keyProperty="id" order="BEFORE" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into ums_member_rule_setting (id, continue_sign_day, continue_sign_point, 
+    insert into ums_member_rule_setting (continue_sign_day, continue_sign_point, 
       consume_per_point, low_order_amount, max_point_per_order, 
       type)
-    values (#{id,jdbcType=BIGINT}, #{continueSignDay,jdbcType=INTEGER}, #{continueSignPoint,jdbcType=INTEGER}, 
+    values (#{continueSignDay,jdbcType=INTEGER}, #{continueSignPoint,jdbcType=INTEGER}, 
       #{consumePerPoint,jdbcType=DECIMAL}, #{lowOrderAmount,jdbcType=DECIMAL}, #{maxPointPerOrder,jdbcType=INTEGER}, 
       #{type,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="fun.huanghai.mall.ums.pojo.UmsMemberRuleSetting" >
-    <selectKey resultType="java.lang.Long" keyProperty="id" order="BEFORE" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into ums_member_rule_setting
     <trim prefix="(" suffix=")" suffixOverrides="," >
-      id,
       <if test="continueSignDay != null" >
         continue_sign_day,
       </if>
@@ -105,7 +104,6 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
-      #{id,jdbcType=BIGINT},
       <if test="continueSignDay != null" >
         #{continueSignDay,jdbcType=INTEGER},
       </if>

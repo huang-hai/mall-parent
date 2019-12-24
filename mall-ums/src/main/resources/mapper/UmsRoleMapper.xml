@@ -67,23 +67,22 @@
     where id = #{id,jdbcType=BIGINT}
   </delete>
   <insert id="insert" parameterType="fun.huanghai.mall.ums.pojo.UmsRole" >
-    <selectKey resultType="java.lang.Long" keyProperty="id" order="BEFORE" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into ums_role (id, name, description, 
-      admin_count, create_time, status, 
-      sort)
-    values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, 
-      #{adminCount,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER}, 
-      #{sort,jdbcType=INTEGER})
+    insert into ums_role (name, description, admin_count, 
+      create_time, status, sort
+      )
+    values (#{name,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, #{adminCount,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER}, #{sort,jdbcType=INTEGER}
+      )
   </insert>
   <insert id="insertSelective" parameterType="fun.huanghai.mall.ums.pojo.UmsRole" >
-    <selectKey resultType="java.lang.Long" keyProperty="id" order="BEFORE" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into ums_role
     <trim prefix="(" suffix=")" suffixOverrides="," >
-      id,
       <if test="name != null" >
         name,
       </if>
@@ -104,7 +103,6 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
-      #{id,jdbcType=BIGINT},
       <if test="name != null" >
         #{name,jdbcType=VARCHAR},
       </if>

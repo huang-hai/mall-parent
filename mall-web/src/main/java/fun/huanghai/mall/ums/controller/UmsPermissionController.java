@@ -50,8 +50,8 @@ public class UmsPermissionController {
 
         Integer res = umsPermissionService.edit(umsPermission);
         if(res == SysVariable.SYS_SUCCESS) return new CommonResult().success(res);
-        else if(res == SysVariable.PERMISSIONNAME_EXIST) return new CommonResult().validateFailed("权限名已存在！");
-        else if(res == SysVariable.SYS_ERROR) throw new UmsWebException("系统错误！");
+        else if(res == SysVariable.PERMISSIONNAME_EXIST) return new CommonResult().validateFailed(SysVariable.PERMISSIONNAME_EXIST_MES);
+        else if(res == SysVariable.SYS_ERROR) throw new UmsWebException(SysVariable.SYS_ERROR_MES);
         return new CommonResult().failed();
     }
 
@@ -78,8 +78,8 @@ public class UmsPermissionController {
 
         Integer res = umsPermissionService.edit(umsPermission);
         if(res == SysVariable.SYS_SUCCESS) return new CommonResult().success(res);
-        else if(res == SysVariable.PERMISSIONNAME_EXIST) return new CommonResult().validateFailed("权限名已存在！");
-        else if(res == SysVariable.SYS_ERROR) throw new UmsWebException("系统错误！");
+        else if(res == SysVariable.PERMISSIONNAME_EXIST) return new CommonResult().validateFailed(SysVariable.PERMISSIONNAME_EXIST_MES);
+        else if(res == SysVariable.SYS_ERROR) throw new UmsWebException(SysVariable.SYS_ERROR_MES);
         return new CommonResult().failed();
     }
 
@@ -92,7 +92,7 @@ public class UmsPermissionController {
     public CommonResult delete(@RequestParam("ids") Long[] ids) throws UmsWebException {
         Integer res = umsPermissionService.delAll(ids);
         if(res==SysVariable.SYS_SUCCESS)return new CommonResult().success(res);
-        else if(res==SysVariable.SYS_ERROR) throw new UmsWebException("系统错误！");
+        else if(res==SysVariable.SYS_ERROR) throw new UmsWebException(SysVariable.SYS_ERROR_MES);
         else return new CommonResult().failed();
     }
 
