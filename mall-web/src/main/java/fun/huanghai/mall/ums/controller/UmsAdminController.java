@@ -127,9 +127,8 @@ public class UmsAdminController {
      */
     @GetMapping("/list")
     public CommonResult list(QueryPageExpandParam queryPageExpandParam) throws Exception {
-        QueryPageParam queryPageParam = new QueryPageParam(queryPageExpandParam.getPageNum(), queryPageExpandParam.getPageSize(), queryPageExpandParam.getName());
-        PageInfoVo pageInfoVo = umsAdminService.queryPages(queryPageParam);
-
+        queryPageExpandParam.setObj(queryPageExpandParam.getName());
+        PageInfoVo pageInfoVo = umsAdminService.queryPages(queryPageExpandParam);
         return new CommonResult().success(pageInfoVo);
     }
 

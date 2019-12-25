@@ -131,9 +131,7 @@ public class UmsPermissionServiceImpl extends BaseServiceImpl<UmsPermission> imp
             List<UmsPermission> umsPermissions = super.queryByCondition(example);
             if(umsPermissions.size()>0) return SysVariable.PERMISSIONNAME_EXIST;
 
-            Integer row = super.add(umsPermission);
-            if(row>0) return SysVariable.SYS_SUCCESS;
-            return SysVariable.SYS_FAILURE;
+            return super.add(umsPermission);
         } catch (Exception e) {
             return error(e,"add");
         }
@@ -148,9 +146,7 @@ public class UmsPermissionServiceImpl extends BaseServiceImpl<UmsPermission> imp
             List<UmsPermission> umsPermissions = super.queryByCondition(example);
             if(umsPermissions.size()>0) return SysVariable.PERMISSIONNAME_EXIST;
 
-            Integer row = super.edit(umsPermission);
-            if(row>0) return SysVariable.SYS_SUCCESS;
-            return SysVariable.SYS_FAILURE;
+            return super.edit(umsPermission);
         } catch (Exception e) {
             return error(e,"edit");
         }

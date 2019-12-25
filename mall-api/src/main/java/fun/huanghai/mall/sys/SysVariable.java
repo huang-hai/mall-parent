@@ -65,4 +65,16 @@ public class SysVariable {
     public static final String PRODUCTCATEGORYNAME_EXIST_MES = "商品分类名已存在";
     public static final Integer PRODUCTCATEGORYNAME_EXIST = 2;
 
+    /**
+     * 商品属性名已存在
+     */
+    public static final String PRODUCTATTRNAME_EXIST_MES = "商品属性名已存在";
+    public static final Integer PRODUCTATTRNAME_EXIST = 2;
+
+    /**
+     * 商品属性名已存在
+     */
+    public static final String PRODUCTATTRCATENAME_EXIST_MES = "商品属性分类名已存在";
+    public static final Integer PRODUCTATTRCATENAME_EXIST = 2;
+
 }

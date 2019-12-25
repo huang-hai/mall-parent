@@ -109,7 +109,7 @@ public class BaseServiceImpl<T> implements BaseService<T>{
     public Integer add(T t) {
         try {
             //反射获取方法
-            Method method = aClass.getDeclaredMethod("insert",t.getClass());
+            Method method = aClass.getDeclaredMethod("insertSelective",t.getClass());
             Integer row = (Integer) method.invoke(obj, t);
             if(row > 0) return SysVariable.SYS_SUCCESS;
             return SysVariable.SYS_FAILURE;

@@ -22,5 +22,4 @@ public interface PmsProductCategoryAttributeRelationDaoExpand extends PmsProduct
      * @return
      */
     int deleteBySelective(@Param("val")Long id,@Param("name") String name);
-
 }

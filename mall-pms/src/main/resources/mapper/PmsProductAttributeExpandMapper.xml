@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="fun.huanghai.mall.dao.PmsProductAttributeDaoExpand" >
+  <resultMap id="expandMap" type="fun.huanghai.mall.pms.pojo.PmsProductAttribute"
+             extends="fun.huanghai.mall.dao.PmsProductAttributeMapper.BaseResultMap">
+  </resultMap>
+
+  <sql id="expandList" >
+    ${alias}.id, ${alias}.product_attribute_category_id, ${alias}.name,
+    ${alias}.select_type, ${alias}.input_type, ${alias}.input_list, ${alias}.sort,
+    ${alias}.filter_type, ${alias}.search_type, ${alias}.related_status, ${alias}.hand_add_status, ${alias}.type
+  </sql>
+
+  <delete id="delAll" parameterType="java.lang.Long" >
+    delete from pms_product_attribute
+    where id in
+    <foreach collection="ids" item="id" open="(" close=")" separator=",">
+      #{id}
+    </foreach>
+  </delete>
+
+  <select id="queryByPid" resultMap="expandMap">
+    select <include refid="expandList"><property name="alias" value="ppa"/></include>
+    from pms_product_category ppc
+    inner join pms_product_category_attribute_relation ppcar
+    inner join pms_product_attribute ppa
+    on ppc.id = ppcar.product_category_id
+    and ppcar.product_attribute_id = ppa.id
+    where ppc.id = #{pid}
+  </select>
+</mapper>

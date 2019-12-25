@@ -163,9 +163,7 @@ public class UmsRoleServiceImpl extends BaseServiceImpl<UmsRole> implements UmsR
                 return SysVariable.USERNAME_EXIST;
             }
 
-            int row = super.add(role);
-            if(row>0) return SysVariable.SYS_SUCCESS;
-            return SysVariable.SYS_FAILURE;
+            return super.add(role);
         } catch (Exception e) {
             return error(e,"add");
         }
@@ -192,9 +190,7 @@ public class UmsRoleServiceImpl extends BaseServiceImpl<UmsRole> implements UmsR
                     .andIdNotEqualTo(umsRole.getId());
             List<UmsRole> umsRoles = super.queryByCondition(example);
             if(umsRoles.size()>0) return SysVariable.ROLENAME_EXIST;
-            Integer row = super.edit(umsRole);
-            if(row>0) return SysVariable.SYS_SUCCESS;
-            return SysVariable.SYS_FAILURE;
+            return super.edit(umsRole);
         } catch (Exception e) {
             return error(e,"edit");
         }

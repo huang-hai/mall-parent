@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="fun.huanghai.mall.dao.PmsProductCategoryDaoExpand" >
+  <resultMap id="expandMap" type="fun.huanghai.mall.pms.pojo.PmsProductCategory"
+             extends="fun.huanghai.mall.dao.PmsProductCategoryMapper.BaseResultMap">
+  </resultMap>
+
+  <resultMap id="expandMapWithBLOBs" type="fun.huanghai.mall.pms.pojo.PmsProductCategoryExpand"
+             extends="fun.huanghai.mall.dao.PmsProductCategoryMapper.ResultMapWithBLOBs">
+    <collection property="children" column="id" select="queryByParent">
+    </collection>
+  </resultMap>
+
+  <sql id="expandList" >
+    ${alias}.id, ${alias}.parent_id, ${alias}.name, ${alias}.level, ${alias}.product_count,
+    ${alias}.product_unit, ${alias}.nav_status, ${alias}.show_status,
+    ${alias}.sort, ${alias}.icon, ${alias}.keywords
+  </sql>
+
+  <sql id="expandBlobList" >
+    ${alias}.description
+  </sql>
+
+  <update id="updateAllStatus">
+    update pms_product_category
+    set ${name} = #{val}
+    where id in 
+    <foreach collection="ids" open="(" close=")" separator="," item="id">
+      #{id}
+    </foreach>
+  </update>
+
+  <select id="queryByParent" resultMap="expandMapWithBLOBs">
+    select <include refid="expandList"><property name="alias" value="pc"/></include>,
+    <include refid="expandBlobList"><property name="alias" value="pc"/></include>
+    from pms_product_category pc
+    where parent_id = #{parentId}
+  </select>
+</mapper>

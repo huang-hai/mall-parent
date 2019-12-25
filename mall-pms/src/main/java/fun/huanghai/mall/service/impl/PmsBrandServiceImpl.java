@@ -11,6 +11,8 @@ import fun.huanghai.mall.vo.PageInfoVo;
 import org.apache.dubbo.common.utils.StringUtils;
 import org.apache.dubbo.config.annotation.Method;
 import org.apache.dubbo.config.annotation.Service;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
@@ -23,6 +25,8 @@ import java.util.List;
         @Method(name = "add",retries = 0)
 })
 public class PmsBrandServiceImpl extends BaseServiceImpl<PmsBrand> implements PmsBrandService{
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(PmsBrandServiceImpl.class);
 
     private PmsBrandMapper pmsBrandMapper;
 
@@ -46,9 +50,7 @@ public class PmsBrandServiceImpl extends BaseServiceImpl<PmsBrand> implements Pm
             List<PmsBrand> pmsBrands = super.queryByCondition(example);
             if(pmsBrands.size() > 0) return SysVariable.BRANDNAME_EXIST;
 
-            Integer row = super.add(pmsBrand);
-            if(row>0) return SysVariable.SYS_SUCCESS;
-            return SysVariable.SYS_FAILURE;
+            return super.add(pmsBrand);
         } catch (Exception e) {
             return error(e,"add");
         }
@@ -63,9 +65,7 @@ public class PmsBrandServiceImpl extends BaseServiceImpl<PmsBrand> implements Pm
             List<PmsBrand> pmsBrands = super.queryByCondition(example);
             if(pmsBrands.size() > 0) return SysVariable.BRANDNAME_EXIST;
 
-            Integer row = super.edit(pmsBrand);
-            if(row>0) return SysVariable.SYS_SUCCESS;
-            return SysVariable.SYS_FAILURE;
+            return super.edit(pmsBrand);
         } catch (Exception e) {
             return error(e,"edit");
         }

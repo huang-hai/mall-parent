@@ -119,9 +119,7 @@ public class UmsAdminServiceImpl extends BaseServiceImpl<UmsAdmin> implements Um
             if(datas.size() > 0){
                 return SysVariable.USERNAME_EXIST;
             }
-            int row = super.add(umsAdmin);
-            if(row>0) return SysVariable.SYS_SUCCESS;
-            return SysVariable.SYS_FAILURE;
+            return super.add(umsAdmin);
         } catch (Exception e) {
             return super.error(e,"add");
         }

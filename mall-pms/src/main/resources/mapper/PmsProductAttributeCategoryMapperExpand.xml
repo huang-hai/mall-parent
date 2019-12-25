@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="fun.huanghai.mall.dao.PmsProductAttributeCategoryDaoExpand">
+  <resultMap id="expandMap" type="fun.huanghai.mall.pms.pojo.PmsProductAttributeCategoryExpand" extends="fun.huanghai.mall.dao.PmsProductAttributeCategoryMapper.BaseResultMap">
+    <collection property="productAttributeList" javaType="fun.huanghai.mall.pms.pojo.PmsProductAttribute" autoMapping="true">
+    </collection>
+  </resultMap>
+
+  <sql id="expandList" >
+    ${alias}.id, ${alias}.name, ${alias}.attribute_count, ${alias}.param_count
+  </sql>
+
+  <sql id="expandAttrList" >
+    ${alias}.id, ${alias}.product_attribute_category_id, ${alias}.name, ${alias}.select_type,
+    ${alias}.input_type, ${alias}.input_list, ${alias}.sort,
+    ${alias}.filter_type, ${alias}.search_type, ${alias}.related_status, ${alias}.hand_add_status, ${alias}.type
+  </sql>
+
+  <select id="queryAll" resultMap="expandMap">
+    select 
+    <include refid="expandList"><property name="alias" value="pac"/></include>,
+    <include refid="expandAttrList"><property name="alias" value="pa"/></include>
+    from pms_product_attribute_category pac
+    left join pms_product_attribute pa
+    on pac.id = pa.product_attribute_category_id
+  </select>
+</mapper>

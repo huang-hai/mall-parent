@@ -115,8 +115,8 @@ public class PmsBrandController {
      */
     @GetMapping("/list")
     public CommonResult list(QueryPageExpandParam queryPageExpandParam){
-        QueryPageParam queryPageParam = new QueryPageParam(queryPageExpandParam.getPageNum(), queryPageExpandParam.getPageSize(), queryPageExpandParam.getKeyword());
-        return new CommonResult().success(pmsBrandService.queryPages(queryPageParam));
+        queryPageExpandParam.setObj(queryPageExpandParam.getKeyword());
+        return new CommonResult().success(pmsBrandService.queryPages(queryPageExpandParam));
     }
 
     /**
