@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="fun.huanghai.mall.dao.PmsSkuStockDaoExpand" >
+
+  <resultMap id="expandMap" type="fun.huanghai.mall.pms.pojo.PmsSkuStock"
+             extends="fun.huanghai.mall.dao.PmsSkuStockMapper.BaseResultMap">
+  </resultMap>
+
+  <sql id="expandList" >
+    id, product_id, sku_code, price, stock, low_stock, sp1, sp2, sp3, pic, sale, promotion_price,
+    lock_stock
+  </sql>
+
+  <insert id="replaceAll">
+    replace into pms_sku_stock (id,product_id, sku_code, price, stock, low_stock, sp1,
+      sp2, sp3, pic, sale, promotion_price, lock_stock)
+    values
+    <foreach collection="skuStocks" separator="," item="sku">
+      (#{sku.id,jdbcType=BIGINT},#{sku.productId,jdbcType=BIGINT}, #{sku.skuCode,jdbcType=VARCHAR}, #{sku.price,jdbcType=DECIMAL},
+        #{sku.stock,jdbcType=INTEGER}, #{sku.lowStock,jdbcType=INTEGER}, #{sku.sp1,jdbcType=VARCHAR},
+        #{sku.sp2,jdbcType=VARCHAR}, #{sku.sp3,jdbcType=VARCHAR}, #{sku.pic,jdbcType=VARCHAR}, #{sku.sale,jdbcType=INTEGER},
+        #{sku.promotionPrice,jdbcType=DECIMAL}, #{sku.lockStock,jdbcType=INTEGER})
+    </foreach>
+  </insert>
+</mapper>

@@ -11,5 +11,4 @@ public interface PmsProductAttributeCategoryDaoExpand extends PmsProductAttribut
      * @return
      */
     List<PmsProductAttributeCategoryExpand> queryAll();
-
 }

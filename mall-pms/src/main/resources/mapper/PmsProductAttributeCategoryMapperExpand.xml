@@ -2,8 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="fun.huanghai.mall.dao.PmsProductAttributeCategoryDaoExpand">
   <resultMap id="expandMap" type="fun.huanghai.mall.pms.pojo.PmsProductAttributeCategoryExpand" extends="fun.huanghai.mall.dao.PmsProductAttributeCategoryMapper.BaseResultMap">
-    <collection property="productAttributeList" javaType="fun.huanghai.mall.pms.pojo.PmsProductAttribute" autoMapping="true">
-    </collection>
+    <collection property="productAttributeList" ofType="fun.huanghai.mall.pms.pojo.PmsProductAttribute" autoMapping="true" columnPrefix="attr_"/>
   </resultMap>
 
   <sql id="expandList" >
@@ -11,15 +10,19 @@
   </sql>
 
   <sql id="expandAttrList" >
-    ${alias}.id, ${alias}.product_attribute_category_id, ${alias}.name, ${alias}.select_type,
-    ${alias}.input_type, ${alias}.input_list, ${alias}.sort,
-    ${alias}.filter_type, ${alias}.search_type, ${alias}.related_status, ${alias}.hand_add_status, ${alias}.type
+    ${alias}.id ${prefix}id, ${alias}.product_attribute_category_id ${prefix}product_attribute_category_id, ${alias}.name ${prefix}name,
+    ${alias}.select_type ${prefix}select_type,${alias}.input_type ${prefix}input_type, ${alias}.input_list ${prefix}input_list,
+    ${alias}.sort ${prefix}sort,${alias}.filter_type ${prefix}filter_type, ${alias}.search_type ${prefix}search_type,
+    ${alias}.related_status ${prefix}related_status, ${alias}.hand_add_status ${prefix}hand_add_status, ${alias}.type ${prefix}type
   </sql>
 
   <select id="queryAll" resultMap="expandMap">
     select 
     <include refid="expandList"><property name="alias" value="pac"/></include>,
-    <include refid="expandAttrList"><property name="alias" value="pa"/></include>
+    <include refid="expandAttrList">
+      <property name="alias" value="pa"/>
+      <property name="prefix" value="attr_"/>
+    </include>
     from pms_product_attribute_category pac
     left join pms_product_attribute pa
     on pac.id = pa.product_attribute_category_id
