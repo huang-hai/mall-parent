@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="fun.huanghai.mall.dao.CmsPrefrenceAreaProductRelationDaoExpand">
+  <resultMap id="expandMap" type="fun.huanghai.mall.cms.pojo.CmsPrefrenceAreaProductRelation"
+             extends="fun.huanghai.mall.dao.CmsPrefrenceAreaProductRelationMapper.BaseResultMap">
+  </resultMap>
+
+  <sql id="expandList" >
+    ${alias}.id, ${alias}.prefrence_area_id, ${alias}.product_id
+  </sql>
+
+  <insert id="insertAll" keyProperty="id" keyColumn="id" useGeneratedKeys="true">
+    insert into cms_prefrence_area_product_relation (prefrence_area_id, product_id)
+    values
+    <foreach collection="records" item="obj" separator=",">
+      (#{obj.prefrenceAreaId,jdbcType=BIGINT}, #{obj.productId,jdbcType=BIGINT})
+    </foreach>
+  </insert>
+</mapper>

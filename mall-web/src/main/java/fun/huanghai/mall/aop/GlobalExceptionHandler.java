@@ -1,5 +1,6 @@
 package fun.huanghai.mall.aop;
 
+import fun.huanghai.mall.cms.exception.CmsWebException;
 import fun.huanghai.mall.pms.exception.PmsWebException;
 import fun.huanghai.mall.to.CommonResult;
 import fun.huanghai.mall.ums.exception.UmsWebException;
@@ -28,5 +29,12 @@ public class GlobalExceptionHandler {
         e.printStackTrace();
         LOGGER.error("商品系统全局异常感知，信息：{}",e.getStackTrace());
         return new CommonResult().validateFailed("商品系统出现异常了，请联系管理员！");
+    }
+
+    @ExceptionHandler(value = CmsWebException.class)
+    public CommonResult cmsErrorHandler(Exception e){
+        e.printStackTrace();
+        LOGGER.error("专题系统全局异常感知，信息：{}",e.getStackTrace());
+        return new CommonResult().validateFailed("专题系统出现异常了，请联系管理员！");
     }
 }

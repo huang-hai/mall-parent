@@ -13,4 +13,11 @@ public interface PmsSkuStockDaoExpand extends PmsSkuStockMapper{
      * @return
      */
     int replaceAll(@Param("skuStocks") List<PmsSkuStock> skuStocks);
+
+    /**
+     * 批量保存
+     * @param skuStocks
+     * @return
+     */
+    int insertAll(@Param("skuStocks") List<PmsSkuStock> skuStocks);
 }

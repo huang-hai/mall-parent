@@ -21,6 +21,9 @@ dubbo:
   protocol:
     name: dubbo
     port: 20810
+  #不检查提供者是否存在
+  consumer:
+    check: false
 #  provider:
 #    cluster: failfast
 #打印sql语句
@@ -52,6 +55,9 @@ dubbo:
   protocol:
     name: dubbo
     port: 20810
+  #不检查提供者是否存在
+  consumer:
+    check: false
 #  provider:
 #    cluster: failfast
 #打印sql语句

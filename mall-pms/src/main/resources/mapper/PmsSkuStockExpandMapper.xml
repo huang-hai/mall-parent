@@ -11,6 +11,18 @@
     lock_stock
   </sql>
 
+  <insert id="insertAll" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+    insert into pms_sku_stock (product_id, sku_code, price, stock, low_stock, sp1,
+      sp2, sp3, pic, sale, promotion_price, lock_stock)
+    values
+    <foreach collection="skuStocks" separator="," item="sku">
+      (#{sku.productId,jdbcType=BIGINT}, #{sku.skuCode,jdbcType=VARCHAR}, #{sku.price,jdbcType=DECIMAL},
+        #{sku.stock,jdbcType=INTEGER}, #{sku.lowStock,jdbcType=INTEGER}, #{sku.sp1,jdbcType=VARCHAR},
+        #{sku.sp2,jdbcType=VARCHAR}, #{sku.sp3,jdbcType=VARCHAR}, #{sku.pic,jdbcType=VARCHAR}, #{sku.sale,jdbcType=INTEGER},
+        #{sku.promotionPrice,jdbcType=DECIMAL}, #{sku.lockStock,jdbcType=INTEGER})
+    </foreach>
+  </insert>
+
   <insert id="replaceAll">
     replace into pms_sku_stock (id,product_id, sku_code, price, stock, low_stock, sp1,
       sp2, sp3, pic, sale, promotion_price, lock_stock)

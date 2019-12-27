@@ -60,6 +60,12 @@ public class SysVariable {
     public static final Integer BRANDNAME_EXIST = 2;
 
     /**
+     * 商品名称已存在
+     */
+    public static final String PRODUCTNAME_EXIST_MES = "商品名已存在";
+    public static final Integer PRODUCTNAME_EXIST = 2;
+
+    /**
      * 商品分类名已存在
      */
     public static final String PRODUCTCATEGORYNAME_EXIST_MES = "商品分类名已存在";

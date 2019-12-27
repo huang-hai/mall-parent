@@ -14,7 +14,11 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.List;
 
-public class BaseServiceImpl<T> implements BaseService<T>{
+/**
+ * 基础service实现类 使用反射,继承此类需传本身对应mapper和方法名需相同(仅限本包下使用,不可实例化)
+ * @param <T>
+ */
+abstract class BaseServiceImpl<T> implements BaseService<T>{
 
     private static final Logger LOGGER = LoggerFactory.getLogger(BaseServiceImpl.class);
 

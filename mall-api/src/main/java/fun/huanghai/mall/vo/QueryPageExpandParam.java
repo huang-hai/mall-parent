@@ -1,4 +1,4 @@
-package fun.huanghai.mall.pms.vo;
+package fun.huanghai.mall.vo;
 
 import fun.huanghai.mall.qo.QueryPageParam;
 

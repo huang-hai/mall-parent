@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="fun.huanghai.mall.dao.PmsMemberPriceDaoExpand" >
+  <resultMap id="expandMap" type="fun.huanghai.mall.pms.pojo.PmsMemberPrice" extends="fun.huanghai.mall.dao.PmsMemberPriceMapper.BaseResultMap">
+  </resultMap>
+
+  <sql id="expandList" >
+    ${alias}.id, ${alias}.product_id, ${alias}.member_level_id, ${alias}.member_price, ${alias}.member_level_name
+  </sql>
+
+  <insert id="insertAll" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+    insert into pms_member_price (product_id, member_level_id, member_price,member_level_name)
+    values
+    <foreach collection="memberPrices" item="obj" separator=",">
+      (#{obj.productId,jdbcType=BIGINT}, #{obj.memberLevelId,jdbcType=BIGINT}, #{obj.memberPrice,jdbcType=DECIMAL},
+        #{obj.memberLevelName,jdbcType=VARCHAR})
+    </foreach>
+  </insert>
+</mapper>
