@@ -91,13 +91,13 @@ public class PmsProductServiceImpl extends BaseServiceImpl<PmsProduct> implement
     private CmsSubjectProductRelationService cmsSubjectProductRelationService;
 
     //必须使用事务
-    @Transactional(propagation = Propagation.REQUIRED,rollbackFor = Exception.class)
+    @Transactional(propagation = Propagation.REQUIRED)
     @Override
     public Integer add(PmsProduct pmsProduct) {
         PmsProductExpand productExpand = (PmsProductExpand) pmsProduct;
         //获取当前对象的代理类,使用这个代理对象调用方法使得事务生效
         PmsProductServiceImpl proxy = (PmsProductServiceImpl) AopContext.currentProxy();
-        PmsProduct product = new PmsProduct();
+        PmsProductWithBLOBs product = new PmsProductWithBLOBs();
         BeanUtils.copyProperties(pmsProduct,product);
         //1、保存商品基本信息
         proxy.addBaseInfo(product);
@@ -153,10 +153,10 @@ public class PmsProductServiceImpl extends BaseServiceImpl<PmsProduct> implement
     }
 
     //沿用外方法的事务(add方法)
-    @Transactional(propagation = Propagation.REQUIRED)
-    public void addBaseInfo(PmsProduct product){
-        Integer res = super.add(product);
-        if(res==SysVariable.SYS_SUCCESS) threadLocal.set(product.getId());
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public void addBaseInfo(PmsProductWithBLOBs product){
+        Integer row = pmsProductMapper.insertSelective(product);
+        if(row>0) threadLocal.set(product.getId());
         LOGGER.info("PmsProductServiceImpl--->addAllMemberPrice:productId={}"
                 ,product.getId());
     }

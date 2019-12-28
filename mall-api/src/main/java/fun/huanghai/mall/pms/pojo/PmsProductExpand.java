@@ -5,7 +5,7 @@ import fun.huanghai.mall.cms.pojo.CmsSubjectProductRelation;
 
 import java.util.Arrays;
 
-public class PmsProductExpand extends PmsProduct{
+public class PmsProductExpand extends PmsProductWithBLOBs{
 
     //商品会员价格设置
     private PmsMemberPrice[] memberPriceList;
