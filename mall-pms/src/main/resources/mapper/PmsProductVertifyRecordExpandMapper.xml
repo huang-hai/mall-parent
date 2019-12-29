@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="fun.huanghai.mall.dao.PmsProductVertifyRecordDaoExpand" >
+  <resultMap id="expandMap" type="fun.huanghai.mall.pms.pojo.PmsProductVertifyRecord"
+             extends="fun.huanghai.mall.dao.PmsProductVertifyRecordMapper.BaseResultMap">
+  </resultMap>
+
+  <sql id="expandList" >
+    ${alias}.id, ${alias}.product_id, ${alias}.create_time, ${alias}.vertify_man, ${alias}.status, ${alias}.detail
+  </sql>
+
+  <insert id="insertAll" keyColumn="id" keyProperty="id" useGeneratedKeys="true">
+    insert into pms_product_vertify_record (product_id, create_time, vertify_man, status, detail)
+    values
+    <foreach collection="records" separator="," item="obj">
+      (#{obj.productId,jdbcType=BIGINT}, #{obj.createTime,jdbcType=TIMESTAMP}, #{obj.vertifyMan,jdbcType=VARCHAR},
+      #{obj.status,jdbcType=INTEGER}, #{obj.detail,jdbcType=VARCHAR})
+    </foreach>
+  </insert>
+
+</mapper>

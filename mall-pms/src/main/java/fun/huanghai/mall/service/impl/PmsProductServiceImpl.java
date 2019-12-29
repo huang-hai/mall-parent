@@ -26,6 +26,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -89,6 +90,14 @@ public class PmsProductServiceImpl extends BaseServiceImpl<PmsProduct> implement
             @Method(name="addAll",retries = 0)/*新增操作只允许执行一次*/
     })
     private CmsSubjectProductRelationService cmsSubjectProductRelationService;
+
+    @Autowired
+    @Qualifier("pmsProductDaoExpand")
+    private PmsProductDaoExpand pmsProductDaoExpand;
+
+    @Autowired
+    @Qualifier("pmsProductVertifyRecordDaoExpand")
+    private PmsProductVertifyRecordDaoExpand pmsProductVertifyRecordDaoExpand;
 
     //必须使用事务
     @Transactional(propagation = Propagation.REQUIRED)
@@ -317,5 +326,77 @@ public class PmsProductServiceImpl extends BaseServiceImpl<PmsProduct> implement
         example.createCriteria().andNameLike("%"+obj+"%")
                 .andProductSnLike("%"+obj+"%");
         return super.queryByCondition(example);
+    }
+
+    @Override
+    public Integer updateDelStatus(Long[] ids, Integer status) {
+        try {
+            if(ids.length==0) return SysVariable.SYS_FAILURE;
+            int row = pmsProductDaoExpand.updateStatus("delete_status", ids, status);
+            if(row>0) return SysVariable.SYS_SUCCESS;
+            return SysVariable.SYS_FAILURE;
+        } catch (Exception e) {
+            return error(e,"updateDelStatus");
+        }
+    }
+
+    @Override
+    public Integer updateNewStatus(Long[] ids, Integer status) {
+        try {
+            if(ids.length==0) return SysVariable.SYS_FAILURE;
+            int row = pmsProductDaoExpand.updateStatus("new_status", ids, status);
+            if(row>0) return SysVariable.SYS_SUCCESS;
+            return SysVariable.SYS_FAILURE;
+        } catch (Exception e) {
+            return error(e,"updateNewStatus");
+        }
+    }
+
+    @Override
+    public Integer updatePublishStatus(Long[] ids, Integer status) {
+        try {
+            if(ids.length==0) return SysVariable.SYS_FAILURE;
+            int row = pmsProductDaoExpand.updateStatus("publish_status", ids, status);
+            if(row>0) return SysVariable.SYS_SUCCESS;
+            return SysVariable.SYS_FAILURE;
+        } catch (Exception e) {
+            return error(e,"updatePublishStatusStatus");
+        }
+    }
+
+    @Override
+    public Integer updateRecommendStatus(Long[] ids, Integer status) {
+        try {
+            if(ids.length==0) return SysVariable.SYS_FAILURE;
+            int row = pmsProductDaoExpand.updateStatus("recommand_status", ids, status);
+            if(row>0) return SysVariable.SYS_SUCCESS;
+            return SysVariable.SYS_FAILURE;
+        } catch (Exception e) {
+            return error(e,"updateRecommendStatus");
+        }
+    }
+
+    @Override
+    public Integer updateVerifyStatus(Long[] ids, Integer status, String detail) {
+        try {
+            if(ids.length==0) return SysVariable.SYS_FAILURE;
+            int row = pmsProductDaoExpand.updateStatus("verify_status",ids,status);
+            if(row==0) return SysVariable.SYS_FAILURE;
+            List<PmsProductVertifyRecord>  list = new ArrayList<>();
+            for(Long id:ids){
+                PmsProductVertifyRecord vertifyRecord = new PmsProductVertifyRecord();
+                vertifyRecord.setDetail(detail);
+                vertifyRecord.setCreateTime(new Date());
+                vertifyRecord.setProductId(id);
+                vertifyRecord.setStatus(status);
+                vertifyRecord.setVertifyMan("system");
+                list.add(vertifyRecord);
+            }
+            row = pmsProductVertifyRecordDaoExpand.insertAll(list);
+            if(row>0) return SysVariable.SYS_SUCCESS;
+            return SysVariable.SYS_FAILURE;
+        } catch (Exception e) {
+            return error(e,"updateVerifyStatus");
+        }
     }
 }
