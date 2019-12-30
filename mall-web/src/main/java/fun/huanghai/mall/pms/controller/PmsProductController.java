@@ -49,7 +49,7 @@ public class PmsProductController {
     }
 
     @PostMapping("/update/{id}")
-    public CommonResult update(@RequestParam("id")Long id,@RequestBody PmsProductExpand productParam)
+    public CommonResult update(@PathVariable("id")Long id,@RequestBody PmsProductExpand productParam)
             throws PmsWebException {
         try {
             productParam.setId(id);

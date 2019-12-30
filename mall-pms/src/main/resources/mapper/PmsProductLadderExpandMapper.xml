@@ -19,7 +19,7 @@
   </insert>
 
   <delete id="delByCondition">
-    delete from pms_product_attribute_value
+    delete from pms_product_ladder
     where ${name} = #{val}
   </delete>
 </mapper>

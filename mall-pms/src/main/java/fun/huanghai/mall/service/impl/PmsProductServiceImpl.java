@@ -467,7 +467,7 @@ public class PmsProductServiceImpl extends BaseServiceImpl<PmsProduct> implement
             error(e,"addAllSubjectProductRelation");
         }
 
-        return super.edit(product);
+        return SysVariable.SYS_SUCCESS;
     }
 
     @Override
