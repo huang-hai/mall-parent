@@ -15,4 +15,11 @@ public interface PmsProductAttributeValueDaoExpand extends PmsProductAttributeVa
      */
     int insertAll(@Param("records") List<PmsProductAttributeValue> records);
 
+    /**
+     * 按条件删除
+     * @param name
+     * @param id
+     * @return
+     */
+    int delByCondition(@Param("name")String name,@Param("val")Long id);
 }

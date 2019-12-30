@@ -15,4 +15,12 @@ public interface PmsMemberPriceDaoExpand extends PmsMemberPriceMapper{
      */
     int insertAll(@Param("memberPrices") List<PmsMemberPrice> records);
 
+    /**
+     * 按单条件删除
+     * name=value
+     * @param name
+     * @param id
+     * @return
+     */
+    int delByCondition(@Param("name") String name,@Param("val") Long id);
 }

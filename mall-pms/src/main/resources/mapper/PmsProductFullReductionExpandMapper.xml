@@ -17,4 +17,9 @@
       #{obj.reducePrice,jdbcType=DECIMAL})
     </foreach>
   </insert>
+
+  <delete id="delByCondition">
+    delete from pms_product_full_reduction
+    where ${name} = #{val}
+  </delete>
 </mapper>

@@ -16,4 +16,9 @@
       (#{obj.prefrenceAreaId,jdbcType=BIGINT}, #{obj.productId,jdbcType=BIGINT})
     </foreach>
   </insert>
+
+  <delete id="delByCondition">
+    delete from cms_prefrence_area_product_relation
+    where ${name} = #{val}
+  </delete>
 </mapper>

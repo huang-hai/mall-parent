@@ -18,4 +18,9 @@
     </foreach>
   </insert>
 
+  <delete id="delByCondition">
+    delete from cms_subject_product_relation
+    where ${name} = #{val}
+  </delete>
+
 </mapper>

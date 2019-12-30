@@ -1,7 +1,9 @@
 package fun.huanghai.mall.service.impl;
 
 import fun.huanghai.mall.cms.pojo.CmsPrefrenceAreaProductRelation;
+import fun.huanghai.mall.cms.pojo.CmsPrefrenceAreaProductRelationExample;
 import fun.huanghai.mall.cms.pojo.CmsSubjectProductRelation;
+import fun.huanghai.mall.cms.pojo.CmsSubjectProductRelationExample;
 import fun.huanghai.mall.cms.service.CmsPrefrenceAreaProductRelationService;
 import fun.huanghai.mall.cms.service.CmsSubjectProductRelationService;
 import fun.huanghai.mall.dao.*;
@@ -166,13 +168,13 @@ public class PmsProductServiceImpl extends BaseServiceImpl<PmsProduct> implement
     public void addBaseInfo(PmsProductWithBLOBs product){
         Integer row = pmsProductMapper.insertSelective(product);
         if(row>0) threadLocal.set(product.getId());
-        LOGGER.info("PmsProductServiceImpl--->addAllMemberPrice:productId={}"
+        LOGGER.info("PmsProductServiceImpl--->addBaseInfo:productId={}"
                 ,product.getId());
     }
 
     //不沿用外方法事务,自己重新开启一个新事物
     @Transactional(propagation = Propagation.REQUIRES_NEW)
-    public void addAllMemberPrice(PmsMemberPrice[] memberPrices){
+    public void addAllMemberPrice(List<PmsMemberPrice> memberPrices){
         List<PmsMemberPrice> list = new ArrayList<>();
         Long pid = (Long) threadLocal.get();
         for(PmsMemberPrice mp: memberPrices){
@@ -187,7 +189,7 @@ public class PmsProductServiceImpl extends BaseServiceImpl<PmsProduct> implement
 
     //不沿用外方法事务,自己重新开启一个新事物
     @Transactional(propagation = Propagation.REQUIRES_NEW)
-    public void addAllPrefrenceAreaProductRelation(CmsPrefrenceAreaProductRelation[] prefrenceAreaProductRelations){
+    public void addAllPrefrenceAreaProductRelation(List<CmsPrefrenceAreaProductRelation> prefrenceAreaProductRelations){
         List<CmsPrefrenceAreaProductRelation> list = new ArrayList<>();
         Long pid = (Long) threadLocal.get();
         for(CmsPrefrenceAreaProductRelation obj: prefrenceAreaProductRelations){
@@ -202,7 +204,7 @@ public class PmsProductServiceImpl extends BaseServiceImpl<PmsProduct> implement
 
     //不沿用外方法事务,自己重新开启一个新事物
     @Transactional(propagation = Propagation.REQUIRES_NEW)
-    public void addAllProductAttributeValues(PmsProductAttributeValue[] productAttributeValues){
+    public void addAllProductAttributeValues(List<PmsProductAttributeValue> productAttributeValues){
         List<PmsProductAttributeValue> list = new ArrayList<>();
         Long pid = (Long) threadLocal.get();
         for(PmsProductAttributeValue obj: productAttributeValues){
@@ -217,7 +219,7 @@ public class PmsProductServiceImpl extends BaseServiceImpl<PmsProduct> implement
 
     //不沿用外方法事务,自己重新开启一个新事物
     @Transactional(propagation = Propagation.REQUIRES_NEW)
-    public void addAllProductFullReduction(PmsProductFullReduction[] productFullReductions){
+    public void addAllProductFullReduction(List<PmsProductFullReduction> productFullReductions){
         List<PmsProductFullReduction> list = new ArrayList<>();
         Long pid = (Long) threadLocal.get();
         for(PmsProductFullReduction obj: productFullReductions){
@@ -232,7 +234,7 @@ public class PmsProductServiceImpl extends BaseServiceImpl<PmsProduct> implement
 
     //不沿用外方法事务,自己重新开启一个新事物
     @Transactional(propagation = Propagation.REQUIRES_NEW)
-    public void addAllProductLadder(PmsProductLadder[] productLadders){
+    public void addAllProductLadder(List<PmsProductLadder> productLadders){
         List<PmsProductLadder> list = new ArrayList<>();
         Long pid = (Long) threadLocal.get();
         for(PmsProductLadder obj: productLadders){
@@ -247,11 +249,11 @@ public class PmsProductServiceImpl extends BaseServiceImpl<PmsProduct> implement
 
     //不沿用外方法事务,自己重新开启一个新事物
     @Transactional(propagation = Propagation.REQUIRES_NEW)
-    public void addAllSkuStock(PmsSkuStock[] skuStocks){
+    public void addAllSkuStock(List<PmsSkuStock> skuStocks){
         List<PmsSkuStock> list = new ArrayList<>();
         Long pid = (Long) threadLocal.get();
-        for(int i = 0; i < skuStocks.length; i++){
-            PmsSkuStock obj = skuStocks[i];
+        for(int i = 0; i < skuStocks.size(); i++){
+            PmsSkuStock obj = skuStocks.get(i);
             if(StringUtils.isBlank(obj.getSkuCode())){
                 //格式为商品id_自增id : 1_1 1_2
                 obj.setSkuCode(pid+"_"+i);
@@ -267,7 +269,7 @@ public class PmsProductServiceImpl extends BaseServiceImpl<PmsProduct> implement
 
     //不沿用外方法事务,自己重新开启一个新事物
     @Transactional(propagation = Propagation.REQUIRES_NEW)
-    public void addAllSubjectProductRelation(CmsSubjectProductRelation[] subjectProductRelations){
+    public void addAllSubjectProductRelation(List<CmsSubjectProductRelation> subjectProductRelations){
         List<CmsSubjectProductRelation> list = new ArrayList<>();
         Long pid = (Long) threadLocal.get();
         for(CmsSubjectProductRelation obj: subjectProductRelations){
@@ -398,5 +400,91 @@ public class PmsProductServiceImpl extends BaseServiceImpl<PmsProduct> implement
         } catch (Exception e) {
             return error(e,"updateVerifyStatus");
         }
+    }
+
+    @Override
+    public Integer edit(PmsProduct product) {
+        PmsProductServiceImpl proxy = (PmsProductServiceImpl) AopContext.currentProxy();
+        PmsProductExpand productExpand = (PmsProductExpand) product;
+        threadLocal.set(product.getId());
+        PmsProductWithBLOBs productWithBLOBs = new PmsProductWithBLOBs();
+        BeanUtils.copyProperties(product,productWithBLOBs);
+        //1、更新商品基本信息
+        int row = pmsProductMapper.updateByPrimaryKeySelective(productWithBLOBs);
+        if(row==0) return SysVariable.SYS_FAILURE;
+
+        //7、更新商品的sku库存信息
+        pmsSkuStockDaoExpand.delByCondition("product_id",product.getId());
+        proxy.addAllSkuStock(productExpand.getSkuStockList());
+
+        //以下所有互不影响
+
+        try {
+            //2、保存商品会员价格
+            pmsMemberPriceDaoExpand.delByCondition("product_id",product.getId());
+            proxy.addAllMemberPrice(productExpand.getMemberPriceList());
+        } catch (Exception e) {
+            error(e,"addAllMemberPrice");
+        }
+
+        try {
+            //3、保存优选专区和商品的关系
+            cmsPrefrenceAreaProductRelationService.delByCondition("product_id",product.getId());
+            proxy.addAllPrefrenceAreaProductRelation(productExpand.getPrefrenceAreaProductRelationList());
+        } catch (Exception e) {
+            error(e,"addAllPrefrenceAreaProductRelation");
+        }
+
+        try {
+            //4、保存商品参数及自定义规格属性
+            pmsProductAttributeValueDaoExpand.delByCondition("product_id",product.getId());
+            proxy.addAllProductAttributeValues(productExpand.getProductAttributeValueList());
+        } catch (Exception e) {
+            error(e,"addAllProductAttributeValues");
+        }
+
+        try {
+            //5、保存商品满减价格
+            pmsProductFullReductionDaoExpand.delByCondition("product_id",product.getId());
+            proxy.addAllProductFullReduction(productExpand.getProductFullReductionList());
+        } catch (Exception e) {
+            error(e,"addAllProductFullReduction");
+        }
+
+        try {
+            //6、保存商品阶梯价格
+            pmsProductLadderDaoExpand.delByCondition("product_id",product.getId());
+            proxy.addAllProductLadder(productExpand.getProductLadderList());
+        } catch (Exception e) {
+            error(e,"addAllProductLadder");
+        }
+
+        try {
+            //8、保存专题和商品关系
+            cmsSubjectProductRelationService.delByCondition("product_id",product.getId());
+            proxy.addAllSubjectProductRelation(productExpand.getSubjectProductRelationList());
+        } catch (Exception e) {
+            error(e,"addAllSubjectProductRelation");
+        }
+
+        return super.edit(product);
+    }
+
+    @Override
+    public PmsProduct findById(Long id) {
+        PmsProductExpand product = pmsProductDaoExpand.queryById(id);
+
+        //查询优选专区和商品的关系
+        CmsPrefrenceAreaProductRelationExample prefrenceAreaProductRelationExample = new CmsPrefrenceAreaProductRelationExample();
+        prefrenceAreaProductRelationExample.createCriteria().andProductIdEqualTo(id);
+        List<CmsPrefrenceAreaProductRelation> prefrenceAreaProductRelationList = cmsPrefrenceAreaProductRelationService.queryByCondition(prefrenceAreaProductRelationExample);
+        product.setPrefrenceAreaProductRelationList(prefrenceAreaProductRelationList);
+
+        //查询专题和商品关系
+        CmsSubjectProductRelationExample subjectProductRelationExample = new CmsSubjectProductRelationExample();
+        subjectProductRelationExample.createCriteria().andProductIdEqualTo(id);
+        List<CmsSubjectProductRelation> subjectProductRelations = cmsSubjectProductRelationService.queryByCondition(subjectProductRelationExample);
+        product.setSubjectProductRelationList(subjectProductRelations);
+        return product;
     }
 }

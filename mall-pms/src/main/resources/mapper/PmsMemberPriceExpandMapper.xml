@@ -16,4 +16,10 @@
         #{obj.memberLevelName,jdbcType=VARCHAR})
     </foreach>
   </insert>
+
+  <delete id="delByCondition">
+    delete from pms_member_price
+    where ${name} = #{val}
+  </delete>
+
 </mapper>

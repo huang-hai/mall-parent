@@ -48,6 +48,21 @@ public class PmsProductController {
         }
     }
 
+    @PostMapping("/update/{id}")
+    public CommonResult update(@RequestParam("id")Long id,@RequestBody PmsProductExpand productParam)
+            throws PmsWebException {
+        try {
+            productParam.setId(id);
+            Integer res = pmsProductService.edit(productParam);
+            if(res==SysVariable.SYS_SUCCESS) return new CommonResult().success(res);
+            else if(res==SysVariable.SYS_ERROR) throw new PmsWebException(SysVariable.SYS_ERROR_MES);
+            else if(res==SysVariable.PRODUCTNAME_EXIST) return new CommonResult().validateFailed(SysVariable.PRODUCTNAME_EXIST_MES);
+            return new CommonResult().failed();
+        } catch (PmsWebException e) {
+            throw new PmsWebException(SysVariable.SYS_ERROR_MES);
+        }
+    }
+
     /**
      * 按搜索条件获取分页数据
      * @param queryPageParam
@@ -146,5 +161,15 @@ public class PmsProductController {
         if(res==SysVariable.SYS_SUCCESS) return new CommonResult().success(res);
         else if(res==SysVariable.SYS_ERROR) throw new PmsWebException(SysVariable.SYS_ERROR_MES);
         return new CommonResult().failed();
+    }
+
+    /**
+     * 获取指定商品编辑信息
+     * @param id
+     * @return
+     */
+    @GetMapping("/updateInfo/{id}")
+    public CommonResult productInfo(@PathVariable("id")Long id){
+        return new CommonResult().success(pmsProductService.findById(id));
     }
 }

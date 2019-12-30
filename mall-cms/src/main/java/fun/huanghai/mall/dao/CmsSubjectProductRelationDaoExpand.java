@@ -13,4 +13,13 @@ public interface CmsSubjectProductRelationDaoExpand extends CmsSubjectProductRel
      * @return
      */
     int insertAll(@Param("records") List<CmsSubjectProductRelation> records);
+
+    /**
+     * 按单条件删除
+     * name=value
+     * @param name
+     * @param id
+     * @return
+     */
+    int delByCondition(@Param("name") String name,@Param("val") Long id);
 }

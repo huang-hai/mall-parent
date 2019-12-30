@@ -13,4 +13,12 @@ public interface PmsProductFullReductionDaoExpand extends PmsProductFullReductio
      * @return
      */
     int insertAll(@Param("records") List<PmsProductFullReduction> records);
+
+    /**
+     * 按条件删除
+     * @param name
+     * @param id
+     * @return
+     */
+    int delByCondition(@Param("name")String name,@Param("val")Long id);
 }

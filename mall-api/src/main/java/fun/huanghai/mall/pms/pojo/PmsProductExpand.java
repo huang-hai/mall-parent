@@ -4,96 +4,97 @@ import fun.huanghai.mall.cms.pojo.CmsPrefrenceAreaProductRelation;
 import fun.huanghai.mall.cms.pojo.CmsSubjectProductRelation;
 
 import java.util.Arrays;
+import java.util.List;
 
 public class PmsProductExpand extends PmsProductWithBLOBs{
 
     //商品会员价格设置
-    private PmsMemberPrice[] memberPriceList;
+    private List<PmsMemberPrice> memberPriceList;
 
     //优选专区和商品的关系
-    private CmsPrefrenceAreaProductRelation[] prefrenceAreaProductRelationList;
+    private List<CmsPrefrenceAreaProductRelation> prefrenceAreaProductRelationList;
 
     //商品参数及自定义规格属性
-    private PmsProductAttributeValue[] productAttributeValueList;
+    private List<PmsProductAttributeValue> productAttributeValueList;
 
     //商品满减价格设置
-    private PmsProductFullReduction[] productFullReductionList;
+    private List<PmsProductFullReduction> productFullReductionList;
 
     //商品阶梯价格设置
-    private PmsProductLadder[] productLadderList;
+    private List<PmsProductLadder> productLadderList;
 
     //商品的sku库存信息
-    private PmsSkuStock[] skuStockList;
+    private List<PmsSkuStock> skuStockList;
 
     //专题和商品关系
-    private CmsSubjectProductRelation[] subjectProductRelationList;
+    private List<CmsSubjectProductRelation> subjectProductRelationList;
 
-    public PmsMemberPrice[] getMemberPriceList() {
+    public List<PmsMemberPrice> getMemberPriceList() {
         return memberPriceList;
     }
 
-    public void setMemberPriceList(PmsMemberPrice[] memberPriceList) {
+    public void setMemberPriceList(List<PmsMemberPrice> memberPriceList) {
         this.memberPriceList = memberPriceList;
     }
 
-    public CmsPrefrenceAreaProductRelation[] getPrefrenceAreaProductRelationList() {
+    public List<CmsPrefrenceAreaProductRelation> getPrefrenceAreaProductRelationList() {
         return prefrenceAreaProductRelationList;
     }
 
-    public void setPrefrenceAreaProductRelationList(CmsPrefrenceAreaProductRelation[] prefrenceAreaProductRelationList) {
+    public void setPrefrenceAreaProductRelationList(List<CmsPrefrenceAreaProductRelation> prefrenceAreaProductRelationList) {
         this.prefrenceAreaProductRelationList = prefrenceAreaProductRelationList;
     }
 
-    public PmsProductAttributeValue[] getProductAttributeValueList() {
+    public List<PmsProductAttributeValue> getProductAttributeValueList() {
         return productAttributeValueList;
     }
 
-    public void setProductAttributeValueList(PmsProductAttributeValue[] productAttributeValueList) {
+    public void setProductAttributeValueList(List<PmsProductAttributeValue> productAttributeValueList) {
         this.productAttributeValueList = productAttributeValueList;
     }
 
-    public PmsProductFullReduction[] getProductFullReductionList() {
+    public List<PmsProductFullReduction> getProductFullReductionList() {
         return productFullReductionList;
     }
 
-    public void setProductFullReductionList(PmsProductFullReduction[] productFullReductionList) {
+    public void setProductFullReductionList(List<PmsProductFullReduction> productFullReductionList) {
         this.productFullReductionList = productFullReductionList;
     }
 
-    public PmsProductLadder[] getProductLadderList() {
+    public List<PmsProductLadder> getProductLadderList() {
         return productLadderList;
     }
 
-    public void setProductLadderList(PmsProductLadder[] productLadderList) {
+    public void setProductLadderList(List<PmsProductLadder> productLadderList) {
         this.productLadderList = productLadderList;
     }
 
-    public PmsSkuStock[] getSkuStockList() {
+    public List<PmsSkuStock> getSkuStockList() {
         return skuStockList;
     }
 
-    public void setSkuStockList(PmsSkuStock[] skuStockList) {
+    public void setSkuStockList(List<PmsSkuStock> skuStockList) {
         this.skuStockList = skuStockList;
     }
 
-    public CmsSubjectProductRelation[] getSubjectProductRelationList() {
+    public List<CmsSubjectProductRelation> getSubjectProductRelationList() {
         return subjectProductRelationList;
     }
 
-    public void setSubjectProductRelationList(CmsSubjectProductRelation[] subjectProductRelationList) {
+    public void setSubjectProductRelationList(List<CmsSubjectProductRelation> subjectProductRelationList) {
         this.subjectProductRelationList = subjectProductRelationList;
     }
 
     @Override
     public String toString() {
         return "PmsProductExpand{" +
-                "memberPriceList=" + Arrays.toString(memberPriceList) +
-                ", prefrenceAreaProductRelationList=" + Arrays.toString(prefrenceAreaProductRelationList) +
-                ", productAttributeValueList=" + Arrays.toString(productAttributeValueList) +
-                ", productFullReductionList=" + Arrays.toString(productFullReductionList) +
-                ", productLadderList=" + Arrays.toString(productLadderList) +
-                ", skuStockList=" + Arrays.toString(skuStockList) +
-                ", subjectProductRelationList=" + Arrays.toString(subjectProductRelationList) +
+                "memberPriceList=" + memberPriceList +
+                ", prefrenceAreaProductRelationList=" + prefrenceAreaProductRelationList +
+                ", productAttributeValueList=" + productAttributeValueList +
+                ", productFullReductionList=" + productFullReductionList +
+                ", productLadderList=" + productLadderList +
+                ", skuStockList=" + skuStockList +
+                ", subjectProductRelationList=" + subjectProductRelationList +
                 '}';
     }
 }

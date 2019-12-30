@@ -34,4 +34,9 @@
         #{sku.promotionPrice,jdbcType=DECIMAL}, #{sku.lockStock,jdbcType=INTEGER})
     </foreach>
   </insert>
+
+  <delete id="delByCondition">
+    delete from pms_sku_stock
+    where ${name} = #{val}
+  </delete>
 </mapper>

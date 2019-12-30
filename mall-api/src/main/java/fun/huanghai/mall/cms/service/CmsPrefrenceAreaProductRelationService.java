@@ -13,4 +13,13 @@ public interface CmsPrefrenceAreaProductRelationService extends BaseService<CmsP
      * @return
      */
     Integer addAll(List<CmsPrefrenceAreaProductRelation> list);
+
+    /**
+     * 按单条件删除
+     * name=value
+     * @param name
+     * @param id
+     * @return
+     */
+    int delByCondition(String name,Long id);
 }

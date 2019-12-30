@@ -5,8 +5,22 @@
              extends="fun.huanghai.mall.dao.PmsProductMapper.BaseResultMap">
   </resultMap>
 
-  <resultMap id="expandMapWithBLOBs" type="fun.huanghai.mall.pms.pojo.PmsProductWithBLOBs"
-             extends="fun.huanghai.mall.dao.PmsProductMapper.ResultMapWithBLOBs" >
+  <resultMap id="expandMapWithBLOBs" type="fun.huanghai.mall.pms.pojo.PmsProductExpand"
+             extends="fun.huanghai.mall.dao.PmsProductMapper.ResultMapWithBLOBs">
+    <collection property="memberPriceList" ofType="fun.huanghai.mall.pms.pojo.PmsMemberPrice" column="id"
+                 select="queryMemberPriceByPid" javaType="ArrayList"/>
+
+    <collection property="productAttributeValueList" ofType="fun.huanghai.mall.pms.pojo.PmsProductAttributeValue" column="id"
+                 select="queryProductAttributeValueByPid" javaType="ArrayList"/>
+
+    <collection property="productFullReductionList" ofType="fun.huanghai.mall.pms.pojo.PmsProductFullReduction" column="id"
+                 select="queryProductFullReductionByPid" javaType="ArrayList"/>
+
+    <collection property="productLadderList" ofType="fun.huanghai.mall.pms.pojo.PmsProductLadder" column="id"
+                 select="queryProductLadderByPid" javaType="ArrayList"/>
+
+    <collection property="skuStockList" ofType="fun.huanghai.mall.pms.pojo.PmsSkuStock" column="id"
+                 select="querySkuStockByPid" javaType="ArrayList"/>
   </resultMap>
 
   <sql id="expandList" >
@@ -18,9 +32,96 @@
     ${alias}.promotion_per_limit, ${alias}.promotion_type, ${alias}.brand_name, ${alias}.product_category_name
   </sql>
 
-  <sql id="expandBlobList" >
-    description, detail_desc, detail_html, detail_mobile_html
+  <sql id="memberPriceList" >
+    ${alias}.id ${prefix}id, ${alias}.product_id ${prefix}product_id, ${alias}.member_level_id ${prefix}member_level_id,
+    ${alias}.member_price ${prefix}member_price, ${alias}.member_level_name ${prefix}member_level_name
   </sql>
+
+  <sql id="expandBlobList" >
+    ${alias}.description, ${alias}.detail_desc, ${alias}.detail_html, ${alias}.detail_mobile_html
+  </sql>
+
+  <sql id="productAttributeValueList" >
+    ${alias}.id ${prefix}id, ${alias}.product_id ${prefix}product_id,
+    ${alias}.product_attribute_id ${prefix}product_attribute_id,
+    ${alias}.value ${prefix}value
+  </sql>
+
+  <sql id="fullPriceList" >
+    ${alias}.id ${prefix}id, ${alias}.product_id ${prefix}product_id,
+    ${alias}.full_price ${prefix}full_price, ${alias}.reduce_price ${prefix}reduce_price
+  </sql>
+
+  <sql id="productLadderList" >
+    ${alias}.id ${prefix}id, ${alias}.product_id ${prefix}product_id,
+    ${alias}.count ${prefix}count, ${alias}.discount ${prefix}discount, ${alias}.price ${prefix}price
+  </sql>
+
+  <sql id="skuList" >
+    ${alias}.id ${prefix}id, ${alias}.product_id ${prefix}product_id, ${alias}.sku_code ${prefix}sku_code,
+    ${alias}.price ${prefix}price, ${alias}.stock ${prefix}stock, ${alias}.low_stock ${prefix}low_stock,
+    ${alias}.sp1 ${prefix}sp1, ${alias}.sp2 ${prefix}sp2, ${alias}.sp3 ${prefix}sp3,
+    ${alias}.pic ${prefix}pic, ${alias}.sale ${prefix}sale, ${alias}.promotion_price ${prefix}promotion_price,
+    ${alias}.lock_stock ${prefix}lock_stock
+  </sql>
+
+  <select id="queryById" resultMap="expandMapWithBLOBs">
+    select
+    <include refid="expandList"><property name="alias" value="p"/></include>,
+    <include refid="expandBlobList"><property name="alias" value="p"/></include>
+    from pms_product p
+    where id = #{id}
+  </select>
+
+  <select id="queryMemberPriceByPid" resultType="fun.huanghai.mall.pms.pojo.PmsMemberPrice">
+    select
+    <include refid="memberPriceList">
+      <property name="alias" value="mp"/>
+      <property name="prefix" value=""/>
+    </include>
+    from pms_member_price mp
+    where product_id = #{pid}
+  </select>
+
+  <select id="queryProductAttributeValueByPid" resultType="fun.huanghai.mall.pms.pojo.PmsProductAttributeValue">
+    select
+    <include refid="productAttributeValueList">
+      <property name="alias" value="av"/>
+      <property name="prefix" value=""/>
+    </include>
+    from pms_product_attribute_value av
+    where product_id = #{pid}
+  </select>
+
+  <select id="queryProductFullReductionByPid" resultType="fun.huanghai.mall.pms.pojo.PmsProductFullReduction">
+    select
+    <include refid="fullPriceList">
+      <property name="alias" value="fr"/>
+      <property name="prefix" value=""/>
+    </include>
+    from pms_product_full_reduction fr
+    where product_id = #{pid}
+  </select>
+
+  <select id="queryProductLadderByPid" resultType="fun.huanghai.mall.pms.pojo.PmsProductLadder">
+    select
+    <include refid="productLadderList">
+      <property name="alias" value="pl"/>
+      <property name="prefix" value=""/>
+    </include>
+    from pms_product_ladder pl
+    where product_id = #{pid}
+  </select>
+
+  <select id="querySkuStockByPid" resultType="fun.huanghai.mall.pms.pojo.PmsSkuStock">
+    select
+    <include refid="skuList">
+      <property name="alias" value="ss"/>
+      <property name="prefix" value=""/>
+    </include>
+    from pms_sku_stock ss
+    where product_id = #{pid}
+  </select>
 
   <update id="updateStatus">
     update pms_product

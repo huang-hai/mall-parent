@@ -13,4 +13,13 @@ public interface CmsSubjectProductRelationService extends BaseService<CmsSubject
      * @return
      */
     Integer addAll(List<CmsSubjectProductRelation> list);
+
+    /**
+     * 按单条件删除
+     * name=value
+     * @param name
+     * @param id
+     * @return
+     */
+    int delByCondition(String name,Long id);
 }

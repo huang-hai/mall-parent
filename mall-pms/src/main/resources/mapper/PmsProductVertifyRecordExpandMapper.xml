@@ -18,4 +18,8 @@
     </foreach>
   </insert>
 
+  <delete id="delByCondition">
+    delete from pms_product_vertify_record
+    where ${name} = #{val}
+  </delete>
 </mapper>

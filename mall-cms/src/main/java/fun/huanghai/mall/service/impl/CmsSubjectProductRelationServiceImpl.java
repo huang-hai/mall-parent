@@ -58,4 +58,19 @@ public class CmsSubjectProductRelationServiceImpl extends BaseServiceImpl<CmsSub
             return error(e,"addAll");
         }
     }
+
+    /**
+     * 按单条件删除
+     * name=value
+     *
+     * @param name
+     * @param id
+     * @return
+     */
+    @Override
+    public int delByCondition(String name, Long id) {
+        Integer row = cmsSubjectProductRelationDaoExpand.delByCondition(name,id);
+        if(row>0) return SysVariable.SYS_SUCCESS;
+        return SysVariable.SYS_FAILURE;
+    }
 }
