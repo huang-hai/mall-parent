@@ -2,6 +2,7 @@ package fun.huanghai.mall.aop;
 
 import fun.huanghai.mall.cms.exception.CmsWebException;
 import fun.huanghai.mall.pms.exception.PmsWebException;
+import fun.huanghai.mall.sms.exception.SmsWebException;
 import fun.huanghai.mall.to.CommonResult;
 import fun.huanghai.mall.ums.exception.UmsWebException;
 import org.slf4j.Logger;
@@ -36,5 +37,12 @@ public class GlobalExceptionHandler {
         e.printStackTrace();
         LOGGER.error("专题系统全局异常感知，信息：{}",e.getStackTrace());
         return new CommonResult().validateFailed("专题系统出现异常了，请联系管理员！");
+    }
+
+    @ExceptionHandler(value = SmsWebException.class)
+    public CommonResult smsErrorHandler(Exception e){
+        e.printStackTrace();
+        LOGGER.error("优惠券系统全局异常感知，信息：{}",e.getStackTrace());
+        return new CommonResult().validateFailed("优惠券系统出现异常了，请联系管理员！");
     }
 }
